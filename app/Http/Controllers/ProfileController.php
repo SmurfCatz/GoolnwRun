@@ -1,0 +1,64 @@
+<?php
+namespace App\Http\Controllers;
+
+use App\Models\Member;
+use App\Models\Address;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+
+class ProfileController extends Controller
+{
+    // แสดงโปรไฟล์ของผู้ใช้
+    public function showProfile($id)
+    {
+        // ค้นหาผู้ใช้และโหลดข้อมูลที่อยู่ทั้งหมดของผู้ใช้
+        $Member = Member::with('addresses')->findOrFail($id);
+        return view('profile.show', compact('Member'));
+    }
+
+    // แสดงหน้าแก้ไขโปรไฟล์
+    public function edit()
+    {
+        $Member = Auth::user();
+        $Addresses = $Member->addresses; // โหลดที่อยู่ทั้งหมดของผู้ใช้
+        return view('profile.edit', compact('Member', 'Addresses'));
+    }
+
+    // อัปเดตข้อมูลโปรไฟล์
+    public function update(Request $request)
+    {
+        $Member = Auth::user(); // ดึงข้อมูลผู้ใช้ปัจจุบัน
+
+        $request->validate([
+            'member_name' => 'required|string|max:255',
+            'member_email' => 'required|email|max:255|unique:members,member_email,' . $Member->id,
+            'member_tel' => 'nullable|string|max:15',
+            'member_gender' => 'nullable|string',
+            'member_dob' => 'nullable|date',
+            'member_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        // อัปโหลดรูปภาพใหม่
+        if ($request->hasFile('member_image')) {
+            if ($Member->member_image) {
+                Storage::delete('public/' . $Member->member_image); // ลบรูปเก่า
+            }
+
+            $imagePath = $request->file('member_image')->store('profiles', 'public');
+            $Member->member_image = $imagePath;
+        }
+
+        // อัปเดตข้อมูลโปรไฟล์
+        $Member->update([
+            'member_name' => $request->member_name,
+            'member_email' => $request->member_email,
+            'member_tel' => $request->member_tel,
+            'member_gender' => $request->member_gender,
+            'member_dob' => $request->member_dob,
+        ]);
+
+        return redirect()->back()->with('success', 'อัปเดตโปรไฟล์สำเร็จ!');
+    }
+}
