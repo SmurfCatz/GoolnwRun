@@ -22,7 +22,7 @@ class Organizer extends Authenticatable
         'organizer_details',
         'organizer_idcard',
         'organizer_experience',
-        'member_image',
+        'organizer_image',
     ];
 
     protected $hidden = [
@@ -34,4 +34,9 @@ class Organizer extends Authenticatable
         'organizer_email_verified_at' => 'datetime',
         'organizer_password' => 'hashed',
     ];
+
+    public function getAuthPassword()
+{
+    return $this->organizer_password;
+}
 }

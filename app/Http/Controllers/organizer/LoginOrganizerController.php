@@ -5,47 +5,49 @@ namespace App\Http\Controllers\Organizer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Organizer;
-use Illuminate\Support\Facades\Hash; // นำเข้า Hash
-use Illuminate\Support\Facades\Auth; // นำเข้า Auth
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
-class loginOrganizerController extends Controller
+class LoginOrganizerController extends Controller
 {
-    use AuthenticatesUsers;
-
     protected $redirectTo = '/home';
 
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
+        $this->middleware('guest:organizer')->except('logout');  // กำหนดเฉพาะ 'organizer' guard
+        
     }
 
     public function loginOrganizer(Request $request)
     {
+        // รับข้อมูลจาก form
         $input = $request->all();
 
-        // Validate input
+        // ตรวจสอบความถูกต้องของข้อมูล
         $this->validate($request, [
             'organizer_email' => 'required|email',
             'organizer_password' => 'required',
         ]);
 
-        // Check organizer data
-        $Organizer = Organizer::where('organizer_email', $input['organizer_email'])->first();
+        // ค้นหาผู้จัดงานจากฐานข้อมูล
+        $organizer = Organizer::where('organizer_email', $input['organizer_email'])->first();
 
-        if ($Organizer && Hash::check($input['organizer_password'], $Organizer->organizer_password)) {
-            auth()->login($Organizer); // แก้เป็น auth() -> login()
+        // ตรวจสอบว่าอีเมลและรหัสผ่านตรงกัน
+        if ($organizer && Hash::check($input['organizer_password'], $organizer->organizer_password)) {
+            // ใช้ guard 'organizer' เพื่อล็อกอิน
+            Auth::guard('organizer')->login($organizer);
 
-            return redirect()->route('organizer.home'); // เปลี่ยนไปใช้ 'organizer.home'
+            // เปลี่ยนเส้นทางไปที่หน้า home ของ organizer
+            return redirect()->route('organizer.home');
         } else {
-            return redirect()->route('organizer.login') // เปลี่ยนไปใช้ 'organizer.login'
-                ->with('error', 'Email-Address And Password Are Wrong.');
+            // หากข้อมูลไม่ถูกต้องให้กลับไปที่หน้า login พร้อมกับ error
+            return redirect()->route('organizer.login')
+                ->with('error', 'Email Address or Password is incorrect.');
         }
     }
 
     public function showOrganizerLoginForm()
     {
-        return view('organizer.login'); // แก้ไขให้ตรงกับชื่อ view ที่ใช้
+        return view('organizer.login');  // แสดงหน้า login ของ organizer
     }
 }

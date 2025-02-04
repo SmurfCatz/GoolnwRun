@@ -41,7 +41,6 @@ return [
             'provider' => 'users',
         ],
 
-        // Guard สำหรับ Organizer
         'organizer' => [
             'driver' => 'session',
             'provider' => 'organizers',

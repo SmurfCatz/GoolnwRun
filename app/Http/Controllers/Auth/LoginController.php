@@ -35,7 +35,7 @@ class LoginController extends Controller
         if ($Member && Hash::check($input['member_password'], $Member->member_password)) {
             auth()->login($Member);
     
-            if ($Member->role == 'admin') {
+            if ($Member->member_role == 'admin') {
                 return redirect()->route('admin.home');
             } else {
                 return redirect()->route('home');

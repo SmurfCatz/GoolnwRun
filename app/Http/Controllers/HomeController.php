@@ -34,6 +34,6 @@ class HomeController extends Controller
 
     public function organizerHome()
     {
-        return view('organizer.organizerhome');
+        return view('organizer.Organizerhome');
     }
 }

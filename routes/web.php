@@ -7,6 +7,10 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Organizer\LoginOrganizerController;
+use App\Http\Controllers\Organizer\OrganizerAuthController;
+use App\Http\Controllers\Auth\OrganizerRegisterController;
+use App\Http\Controllers\Auth\OrganizerLoginController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -36,18 +40,17 @@ Route::middleware('auth')->group(function () {
         //     Route::delete('/{event}', [EventController::class, 'destroy'])->name('organizer.events.destroy');
         // });
     });
-
-    Route::prefix('organizer')->name('organizer.')->group(function () {
-        // หน้า home สำหรับ organizer
-        Route::get('/home', [HomeController::class, 'organizerHome'])->name('home');
-    
-        // หน้า login สำหรับ organizer
-        Route::get('/login', [LoginOrganizerController::class, 'showOrganizerLoginForm'])->name('login');
-    
-        // ฟังก์ชันเข้าสู่ระบบสำหรับ organizer
-        Route::post('/login', [LoginOrganizerController::class, 'loginOrganizer'])->name('login.submit');
-    });
 });
+
+
+
+
+Route::get('/organizer/login', [OrganizerLoginController::class, 'showLoginForm'])->name('auth.organizer_login');
+Route::post('/organizer/login', [OrganizerLoginController::class, 'login'])->name('organizer.login');
+Route::post('/organizer/logout', [OrganizerLoginController::class, 'logout'])->name('organizer.logout');
+Route::post('/organizer/register', [OrganizerRegisterController::class, 'register'])->name('organizer.register');
+Route::get('/organizer/register', [OrganizerRegisterController::class, 'showOrganizerForm'])->name('auth.organizer_register');
+Route::get('/organizer/home', [HomeController::class, 'organizerHome'])->name('organizer.home')->middleware('auth:organizer');
 
 // Routes for admin users
 Route::middleware(['admin'])->group(function () {

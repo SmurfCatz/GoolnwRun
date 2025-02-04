@@ -65,7 +65,54 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
-                        @guest
+                        @if (Auth::guard('web')->check())
+                            <!-- ตรวจสอบการล็อกอินของ user -->
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::guard('web')->user()->member_name }}
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                        Edit Profile
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault(); document.getElementById('user-logout-form').submit();">
+                                        Logout
+                                    </a>
+
+                                    <form id="user-logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        @elseif (Auth::guard('organizer')->check())
+                            <!-- ตรวจสอบการล็อกอินของ organizer -->
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::guard('organizer')->user()->organizer_name }}
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('organizer.home') }}">
+                                        Edit Profile
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('organizer.logout') }}"
+                                        onclick="event.preventDefault(); document.getElementById('organizer-logout-form').submit();">
+                                        Logout
+                                    </a>
+
+                                    <form id="organizer-logout-form" action="{{ route('organizer.logout') }}"
+                                        method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        @else
+                            <!-- ผู้ใช้ที่ยังไม่ได้ล็อกอิน -->
                             @if (Route::has('login'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -77,32 +124,16 @@
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('organizer.login') }}">{{ __('Organizer Login') }}</a>
-                            </li>                            
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->member_name }}
-                                </a>
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('profile.edit') }}">
-                                        Edit Profile
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
+                            @if (Route::has('auth.organizer_login'))
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                        href="{{ route('auth.organizer_login') }}">{{ __('Organizer') }}</a>
+                                </li>
+                            @endif
+                        @endif
                     </ul>
+
                 </div>
             </div>
         </nav>
