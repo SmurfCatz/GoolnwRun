@@ -6,8 +6,6 @@ use App\Http\Controllers\Admin\UserController;
 // use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AddressController;
-use App\Http\Controllers\Organizer\LoginOrganizerController;
-use App\Http\Controllers\Organizer\OrganizerAuthController;
 use App\Http\Controllers\Auth\OrganizerRegisterController;
 use App\Http\Controllers\Auth\OrganizerLoginController;
 
@@ -63,9 +61,3 @@ Route::middleware(['admin'])->group(function () {
     Route::put('/admin/members/{members}', [UserController::class, 'update'])->name('admin.users.update');
     Route::delete('/admin/members/{members}', [UserController::class, 'destroy'])->name('admin.users.destroy');
 });
-
-// Routes for organizer users
-// Route::get('/organizer/home', [HomeController::class, 'organizerHome'])->name('organizer.home')->middleware('organizer');
-
-// Route::get('/register/organizer', [App\Http\Controllers\Auth\RegisterController::class, 'showOrganizerForm'])->name('register.organizer');
-// Route::post('/register/organizer', [App\Http\Controllers\Auth\RegisterController::class, 'registerOrganizer'])->name('register.organizer.store');
