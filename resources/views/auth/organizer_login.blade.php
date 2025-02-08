@@ -74,15 +74,15 @@
                                         </a>
                                     @endif
 
-                                    
+
                                 </div>
                             </div>
-                            <div>
-                                <a class="btn btn-link" href="{{ route('auth.organizer_register') }}">
-                                    {{ __('หากยังไม่ได้สมัครสมาชิกโปรด ลงทะเบียน') }}
-                                </a>
-                            </div>
                         </form>
+                    </div>
+                    <div>
+                        <a class="btn btn-link btn-sm mb-3 " href="{{ route('auth.organizer_register') }}">
+                            {{ __('หากยังไม่ได้สมัครสมาชิกโปรด ลงทะเบียน') }}
+                        </a>
                     </div>
                 </div>
             </div>

@@ -18,6 +18,45 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <style>
+        /* การตกแต่ง Navbar */
+        .navbar {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .navbar-light .navbar-nav .nav-link:hover {
+            color: #007bff;
+            transition: color 0.3s ease;
+        }
+
+
+
+        /* เพิ่มการแสดงเงาให้ Dropdown Menu */
+        .dropdown-menu {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-item:hover {
+            background-color: #f1f1f1;
+            transition: background-color 0.3s ease;
+        }
+
+        /* เพิ่มแอนิเมชันสำหรับการขยายขนาดปุ่ม */
+        .navbar-toggler-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-toggler-icon:hover {
+            transform: rotate(90deg);
+        }
+    </style>
 </head>
 
 <body>
@@ -37,28 +76,33 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         @auth
+                            <!-- เมนูสำหรับ Admin -->
                             @if (auth()->user()->member_role === 'admin')
-                                <!-- Admin Menu -->
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('admin.home') }}">{{ __('Dashboard') }}</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                        href="{{ route('admin.users.index') }}">{{ __('User Management') }}</a>
+                                        href="{{ route('admin.users.index') }}">{{ __('Members Management') }}</a>
                                 </li>
-                            @elseif (auth()->user()->member_role === 'organizer')
-                                <!-- Organizer Menu -->
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('organizer.home') }}">{{ __('Dashboard') }}</a>
-                                </li>
-                                {{-- <li class="nav-item">
                                     <a class="nav-link"
-                                        href="{{ route('organizer.events.index') }}">{{ __('Manage Events') }}</a>
-                                </li> --}}
+                                        href="{{ route('admin.organizers.index') }}">{{ __('Organizers Management') }}</a>
+                                </li>
                             @endif
+                        @endauth
+                        <!-- เมนูสำหรับ Organizer -->
+                        @auth('organizer')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('organizer.home') }}">{{ __('Dashboard') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('organizer.home') }}">{{ __('Manage Events') }}</a>
+                            </li>
                         @endauth
                     </ul>
 
@@ -70,9 +114,12 @@
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <img src="{{ Auth::check() ? (Auth::user()->member_image ? asset('storage/' . Auth::user()->member_image) : asset('images/default-avatar.png')) : asset('images/default-avatar.png') }}"
+                                        alt="Profile Picture" class="profile-picture" width="30" height="30"
+                                        style="object-fit: cover; border-radius: 50%;">
+
                                     {{ Auth::guard('web')->user()->member_name }}
                                 </a>
-
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('profile.edit') }}">
                                         Edit Profile
@@ -93,11 +140,16 @@
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <img src="{{ Auth::check() ? (Auth::user()->organizer_image ? asset('storage/' . Auth::user()->organizer_image) : asset('images/default-avatar.png')) : asset('images/default-avatar.png') }}"
+                                        alt="Profile Picture" class="profile-picture" width="30" height="30"
+                                        style="object-fit: cover; border-radius: 50%;">
+
+
                                     {{ Auth::guard('organizer')->user()->organizer_name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('organizer.home') }}">
+                                    <a class="dropdown-item" href="{{ route('organizer.profile.edit') }}">
                                         Edit Profile
                                     </a>
                                     <a class="dropdown-item" href="{{ route('organizer.logout') }}"

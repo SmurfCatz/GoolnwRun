@@ -13,7 +13,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-
+    
     <!-- Styles -->
     <style>
         .carousel-inner .carousel-item img {
@@ -22,6 +22,7 @@
             min-height: 500px;
             object-fit: cover;
         }
+        
     </style>
 </head>
 

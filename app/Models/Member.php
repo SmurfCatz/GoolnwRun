@@ -41,5 +41,5 @@ class Member extends Authenticatable
 {
     return $this->hasMany(Address::class);
 }
-    
+
 }

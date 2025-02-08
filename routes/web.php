@@ -3,11 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\UserController;
-// use App\Http\Controllers\EventController;
+use App\Http\Controllers\Admin\OrganizerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Auth\OrganizerRegisterController;
 use App\Http\Controllers\Auth\OrganizerLoginController;
+use App\Http\Controllers\Organizer\OrganizerProfileController;
 
 
 Route::get('/', function () {
@@ -28,19 +29,14 @@ Route::middleware('auth')->group(function () {
         Route::post('/address/store', [AddressController::class, 'store'])->name('address.store');
         Route::put('/address/{id}', [AddressController::class, 'updateAddress'])->name('address.update');
         Route::delete('/address/{id}', [AddressController::class, 'deleteAddress'])->name('address.delete');
-
-        // Route::prefix('events')->group(function () {
-        //     Route::get('/', [EventController::class, 'index'])->name('organizer.events.index');
-        //     Route::get('/create', [EventController::class, 'create'])->name('organizer.events.create');
-        //     Route::post('/', [EventController::class, 'store'])->name('organizer.events.store');
-        //     Route::get('/{event}/edit', [EventController::class, 'edit'])->name('organizer.edit');
-        //     Route::put('/{event}', [EventController::class, 'update'])->name('organizer.events.update');
-        //     Route::delete('/{event}', [EventController::class, 'destroy'])->name('organizer.events.destroy');
-        // });
     });
 });
 
+Route::middleware('auth:organizer')->group(function () {
+    Route::get('/organizer/edit', [OrganizerProfileController::class, 'edit'])->name('organizer.profile.edit');
+    Route::put('organizer/profile/update', [OrganizerProfileController::class, 'update'])->name('organizer.profile.update');
 
+});
 
 
 Route::get('/organizer/login', [OrganizerLoginController::class, 'showLoginForm'])->name('auth.organizer_login');
@@ -50,9 +46,19 @@ Route::post('/organizer/register', [OrganizerRegisterController::class, 'registe
 Route::get('/organizer/register', [OrganizerRegisterController::class, 'showOrganizerForm'])->name('auth.organizer_register');
 Route::get('/organizer/home', [HomeController::class, 'organizerHome'])->name('organizer.home')->middleware('auth:organizer');
 
-// Routes for admin users
+
 Route::middleware(['admin'])->group(function () {
     Route::get('/admin/home', [HomeController::class, 'adminHome'])->name('admin.home');
+    
+    Route::get('/admin/organizers', [OrganizerController::class, 'index'])->name('admin.organizers.index');
+    Route::get('/admin/organizers/create', [OrganizerController::class, 'create'])->name('admin.organizers.create');
+    Route::post('/admin/organizers', [OrganizerController::class, 'store'])->name('admin.organizers.store');
+    Route::get('/admin/organizers/{organizers}', [OrganizerController::class, 'show'])->name('admin.organizers.show');
+    Route::get('/admin/organizers/{organizers}/edit', [OrganizerController::class, 'edit'])->name('admin.organizers.edit');
+    Route::put('/admin/organizers/{organizers}', [OrganizerController::class, 'update'])->name('admin.organizers.update');
+    Route::delete('/admin/organizers/{organizers}', [OrganizerController::class, 'destroy'])->name('admin.organizers.destroy')
+    
+    ;
     Route::get('/admin/members', [UserController::class, 'index'])->name('admin.users.index');
     Route::get('/admin/members/create', [UserController::class, 'create'])->name('admin.users.create');
     Route::post('/admin/members', [UserController::class, 'store'])->name('admin.users.store');
