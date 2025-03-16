@@ -63,6 +63,11 @@
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
             <div class="container">
+                {{-- <a class="navbar-brand" href="{{ url('/') }}">
+                    <img src="{{ asset('images/Screenshot_1.png') }}"
+                        alt="" width="60" height="30" class="d-inline-block align-text-top">
+                </a> --}}
+
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="https://img.freepik.com/premium-vector/run-running-people-human-man-sport-logo-vector-icon-illustration_7688-4400.jpg"
                         alt="" width="30" height="24" class="d-inline-block align-text-top">
@@ -92,6 +97,11 @@
                                 <li class="nav-item">
                                     <a class="nav-link"
                                         href="{{ route('admin.organizers.index') }}">{{ __('Organizers Management') }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('admin.organizers.pending') }}">
+                                        {{ __('Approve Organizers') }}
+                                    </a>
                                 </li>
                             @endif
                         @endauth

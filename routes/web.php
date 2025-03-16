@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\OrganizerLoginController;
 use App\Http\Controllers\Organizer\OrganizerProfileController;
 
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -47,23 +48,29 @@ Route::get('/organizer/register', [OrganizerRegisterController::class, 'showOrga
 Route::get('/organizer/home', [HomeController::class, 'organizerHome'])->name('organizer.home')->middleware('auth:organizer');
 
 
-Route::middleware(['admin'])->group(function () {
-    Route::get('/admin/home', [HomeController::class, 'adminHome'])->name('admin.home');
+Route::middleware(['admin'])->prefix('admin')->group(function () {
+    Route::get('/home', [HomeController::class, 'adminHome'])->name('admin.home');
+
+    Route::get('/organizers', [OrganizerController::class, 'index'])->name('admin.organizers.index');
+    Route::get('/organizers/create', [OrganizerController::class, 'create'])->name('admin.organizers.create');
+    Route::post('/organizers', [OrganizerController::class, 'store'])->name('admin.organizers.store');
+    Route::get('/organizers/{organizers}', [OrganizerController::class, 'show'])->name('admin.organizers.show');
+    Route::get('/organizers/{organizers}/edit', [OrganizerController::class, 'edit'])->name('admin.organizers.edit');
+    Route::put('/organizers/{organizers}', [OrganizerController::class, 'update'])->name('admin.organizers.update');
+    Route::delete('/organizers/{organizers}', [OrganizerController::class, 'destroy'])->name('admin.organizers.destroy');
+
+    Route::get('/admin/organizers/pending', [OrganizerController::class, 'pendingOrganizers'])->name('admin.organizers.pending');
+    Route::post('/organizers/approve/{id}', [OrganizerController::class, 'approve'])->name('admin.organizers.approve');
+    Route::get('/organizer/loading', function () {
+        return view('organizer.loading');
+    })->name('organizer.loading');
     
-    Route::get('/admin/organizers', [OrganizerController::class, 'index'])->name('admin.organizers.index');
-    Route::get('/admin/organizers/create', [OrganizerController::class, 'create'])->name('admin.organizers.create');
-    Route::post('/admin/organizers', [OrganizerController::class, 'store'])->name('admin.organizers.store');
-    Route::get('/admin/organizers/{organizers}', [OrganizerController::class, 'show'])->name('admin.organizers.show');
-    Route::get('/admin/organizers/{organizers}/edit', [OrganizerController::class, 'edit'])->name('admin.organizers.edit');
-    Route::put('/admin/organizers/{organizers}', [OrganizerController::class, 'update'])->name('admin.organizers.update');
-    Route::delete('/admin/organizers/{organizers}', [OrganizerController::class, 'destroy'])->name('admin.organizers.destroy')
-    
-    ;
-    Route::get('/admin/members', [UserController::class, 'index'])->name('admin.users.index');
-    Route::get('/admin/members/create', [UserController::class, 'create'])->name('admin.users.create');
-    Route::post('/admin/members', [UserController::class, 'store'])->name('admin.users.store');
-    Route::get('/admin/members/{members}', [UserController::class, 'show'])->name('admin.users.show');
-    Route::get('/admin/members/{members}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
-    Route::put('/admin/members/{members}', [UserController::class, 'update'])->name('admin.users.update');
-    Route::delete('/admin/members/{members}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+
+    Route::get('/members', [UserController::class, 'index'])->name('admin.users.index');
+    Route::get('/members/create', [UserController::class, 'create'])->name('admin.users.create');
+    Route::post('/members', [UserController::class, 'store'])->name('admin.users.store');
+    Route::get('/members/{members}', [UserController::class, 'show'])->name('admin.users.show');
+    Route::get('/members/{members}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
+    Route::put('/members/{members}', [UserController::class, 'update'])->name('admin.users.update');
+    Route::delete('/members/{members}', [UserController::class, 'destroy'])->name('admin.users.destroy');
 });

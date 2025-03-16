@@ -55,6 +55,7 @@ class OrganizerRegisterController extends Controller
             'organizer_name' => $data['organizer_name'],
             'organizer_email' => $data['organizer_email'],
             'organizer_password' => Hash::make($data['password']),
+             'is_approved' => false,  // กำหนดให้รอการอนุมัติ
         ]);
     }
 

@@ -20,6 +20,24 @@ class OrganizerController extends Controller
         return view('admin.organizers.index', compact('organizers')); // ส่งข้อมูลไปยัง view
     }
 
+    public function pendingOrganizers()
+    {
+        $organizers = Organizer::where('is_approved', false)->get();
+        return view('admin.organizers.pending', compact('organizers'));
+    }
+
+    // อนุมัติ Organizer
+    public function approve($id)
+    {
+        $organizer = Organizer::find($id);
+        if ($organizer) {
+            $organizer->is_approved = true;
+            $organizer->save();
+            return back()->with('status', 'อนุมัติผู้จัดงานเรียบร้อยแล้ว');
+        }
+        return back()->withErrors(['error' => 'ไม่พบผู้จัดงาน']);
+    }
+
     // ฟังก์ชันแสดงฟอร์มเพิ่ม organizer ใหม่
     public function create()
     {

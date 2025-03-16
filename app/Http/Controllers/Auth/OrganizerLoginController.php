@@ -34,30 +34,43 @@ class OrganizerLoginController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function login(Request $request)
-    {
-        // กำหนดกฎการตรวจสอบข้อมูล
-        $this->validate($request, [
-            'organizer_email' => 'required|email',
-            'organizer_password' => 'required',
-        ]);
+{
+    // กำหนดกฎการตรวจสอบข้อมูลที่รับมาจากฟอร์ม
+    $this->validate($request, [
+        'organizer_email' => 'required|email',  // ตรวจสอบว่ามีอีเมลและเป็นฟอร์แมตที่ถูกต้อง
+        'organizer_password' => 'required',     // ตรวจสอบว่ามีรหัสผ่าน
+    ]);
 
-        // ตรวจสอบข้อมูลผู้ใช้จาก Organizer
-        $organizer = Organizer::where('organizer_email', $request->input('organizer_email'))->first();
+    // รับข้อมูลที่ส่งมาจากฟอร์ม
+    $email = $request->input('organizer_email');
+    $password = $request->input('organizer_password');
 
-        // หากพบผู้ใช้และรหัสผ่านถูกต้อง
-        if ($organizer && Hash::check($request->input('organizer_password'), $organizer->organizer_password)) {
-            // เข้าสู่ระบบ
-            Auth::guard('organizer')->login($organizer);
+    // ตรวจสอบข้อมูลผู้ใช้จาก Organizer โดยใช้ email
+    $organizer = Organizer::where('organizer_email', $email)->first();
 
-
-            // เปลี่ยนเส้นทางไปที่หน้า home ของ organizer
-            return redirect()->route('organizer.home');
+    // ถ้าพบผู้ใช้และรหัสผ่านตรงกัน
+    if ($organizer && Hash::check($password, $organizer->organizer_password)) {
+        // ตรวจสอบสถานะการอนุมัติของ Organizer
+        if ($organizer->is_approved == 0) { // ถ้า is_approved เป็น 0 (ไม่ได้รับการอนุมัติ)
+            return back()->withErrors([
+                'organizer_email' => 'บัญชีของคุณยังไม่ได้รับการอนุมัติจากผู้ดูแลระบบ',
+            ]);
         }
 
-        // ถ้าผิดพลาดกลับไปที่หน้า login พร้อมข้อความ error
-        return redirect()->route('organizer.login')
-            ->with('error', 'Email Address or Password is incorrect.');
+        // เข้าสู่ระบบ
+        Auth::guard('organizer')->login($organizer);
+
+        // เปลี่ยนเส้นทางไปที่หน้า home ของ organizer
+        return redirect()->route('organizer.home');
     }
+
+    // ถ้าข้อมูลไม่ถูกต้อง, กลับไปที่หน้า login และแสดงข้อความ error
+    return back()->withErrors([
+        'organizer_email' => 'อีเมลหรือรหัสผ่านไม่ถูกต้อง',
+    ]);
+}
+
+
 
     /**
      * ฟังก์ชันการออกจากระบบ
