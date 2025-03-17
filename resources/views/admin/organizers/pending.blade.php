@@ -1,39 +1,54 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h2>รายการ Organizer ที่รอการอนุมัติ</h2>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">{{ __('Pending Organizer Approvals') }}</h5>
+                    </div>
 
-        @if (session('status'))
-            <div class="alert alert-success">{{ session('status') }}</div>
-        @endif
+                    <div class="card-body">
+                        @if (session('status'))
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
+                        @endif
 
-        @if ($organizers->count() > 0)
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>ชื่อผู้จัดงาน</th>
-                        <th>Email</th>
-                        <th>ดำเนินการ</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($organizers as $organizer)
-                        <tr>
-                            <td>{{ $organizer->organizer_name }}</td>
-                            <td>{{ $organizer->organizer_email }}</td>
-                            <td>
-                                <form action="{{ route('admin.organizers.approve', $organizer->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success">อนุมัติ</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @else
-            <p>ไม่มีผู้จัดงานที่รอการอนุมัติ</p>
-        @endif
+                        @if ($organizers->count() > 0)
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>{{ __('Organizer Name') }}</th>
+                                        <th>{{ __('Email') }}</th>
+                                        <th class="text-center">{{ __('Actions') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($organizers as $organizer)
+                                        <tr>
+                                            <td>{{ $organizer->organizer_name }}</td>
+                                            <td>{{ $organizer->organizer_email }}</td>
+                                            <td class="text-center">
+                                                <form action="{{ route('admin.organizers.approve', $organizer->id) }}"
+                                                    method="POST" style="display: inline;">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-success btn-sm">
+                                                        {{ __('Approve') }}
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <p class="text-center">{{ __('No organizers pending approval.') }}</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

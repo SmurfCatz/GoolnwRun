@@ -99,6 +99,11 @@
                                         href="{{ route('admin.organizers.index') }}">{{ __('Organizers Management') }}</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('admin.packages.index') }}">
+                                        {{ __('Package Management') }}
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="{{ route('admin.organizers.pending') }}">
                                         {{ __('Approve Organizers') }}
                                     </a>

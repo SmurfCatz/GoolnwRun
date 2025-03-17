@@ -9,6 +9,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Auth\OrganizerRegisterController;
 use App\Http\Controllers\Auth\OrganizerLoginController;
 use App\Http\Controllers\Organizer\OrganizerProfileController;
+use App\Http\Controllers\Admin\PackageController;
 
 
 
@@ -64,7 +65,6 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::get('/organizer/loading', function () {
         return view('organizer.loading');
     })->name('organizer.loading');
-    
 
     Route::get('/members', [UserController::class, 'index'])->name('admin.users.index');
     Route::get('/members/create', [UserController::class, 'create'])->name('admin.users.create');
@@ -73,4 +73,13 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::get('/members/{members}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
     Route::put('/members/{members}', [UserController::class, 'update'])->name('admin.users.update');
     Route::delete('/members/{members}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+
+
+
+    Route::get('/packages', [PackageController::class, 'index'])->name('admin.packages.index');
+    Route::get('/packages/create', [PackageController::class, 'create'])->name('admin.packages.create');
+    Route::post('/packages', [PackageController::class, 'store'])->name('admin.packages.store');
+    Route::get('/packages/{id}/edit', [PackageController::class, 'edit'])->name('admin.packages.edit');
+    Route::put('/packages/{id}', [PackageController::class, 'update'])->name('admin.packages.update');
+    Route::delete('/packages/{id}', [PackageController::class, 'destroy'])->name('admin.packages.destroy');
 });
