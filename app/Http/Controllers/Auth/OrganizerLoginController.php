@@ -35,41 +35,27 @@ class OrganizerLoginController extends Controller
      */
     public function login(Request $request)
 {
-    // กำหนดกฎการตรวจสอบข้อมูลที่รับมาจากฟอร์ม
-    $this->validate($request, [
-        'organizer_email' => 'required|email',  // ตรวจสอบว่ามีอีเมลและเป็นฟอร์แมตที่ถูกต้อง
-        'organizer_password' => 'required',     // ตรวจสอบว่ามีรหัสผ่าน
+    $request->validate([
+        'organizer_email' => 'required|email',
+        'organizer_password' => 'required',
     ]);
 
-    // รับข้อมูลที่ส่งมาจากฟอร์ม
-    $email = $request->input('organizer_email');
-    $password = $request->input('organizer_password');
+    // ค้นหาผู้จัดงาน
+    $organizer = Organizer::where('organizer_email', $request->organizer_email)->first();
 
-    // ตรวจสอบข้อมูลผู้ใช้จาก Organizer โดยใช้ email
-    $organizer = Organizer::where('organizer_email', $email)->first();
+    if ($organizer && Hash::check($request->organizer_password, $organizer->organizer_password)) {
 
-    // ถ้าพบผู้ใช้และรหัสผ่านตรงกัน
-    if ($organizer && Hash::check($password, $organizer->organizer_password)) {
-        // ตรวจสอบสถานะการอนุมัติของ Organizer
-        if ($organizer->is_approved == 0) { // ถ้า is_approved เป็น 0 (ไม่ได้รับการอนุมัติ)
-            return back()->withErrors([
-                'organizer_email' => 'บัญชีของคุณยังไม่ได้รับการอนุมัติจากผู้ดูแลระบบ',
-            ]);
+        // **เช็กว่าได้รับอนุมัติหรือยัง**
+        if (!$organizer->is_approved) {
+            return redirect()->route('organizer.login')->with('error', 'บัญชีของคุณยังไม่ได้รับการอนุมัติจากแอดมิน');
         }
 
-        // เข้าสู่ระบบ
         Auth::guard('organizer')->login($organizer);
-
-        // เปลี่ยนเส้นทางไปที่หน้า home ของ organizer
-        return redirect()->route('organizer.home');
+        return redirect()->route('organizer.home')->with('success', 'เข้าสู่ระบบสำเร็จ!');
     }
 
-    // ถ้าข้อมูลไม่ถูกต้อง, กลับไปที่หน้า login และแสดงข้อความ error
-    return back()->withErrors([
-        'organizer_email' => 'อีเมลหรือรหัสผ่านไม่ถูกต้อง',
-    ]);
+    return redirect()->route('organizer.login')->with('error', 'อีเมลหรือรหัสผ่านไม่ถูกต้อง');
 }
-
 
 
     /**

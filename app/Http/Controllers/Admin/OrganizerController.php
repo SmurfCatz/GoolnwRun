@@ -19,12 +19,12 @@ class OrganizerController extends Controller
         $organizers = Organizer::all(); // ดึงรายการทั้งหมดของ organizers
         return view('admin.organizers.index', compact('organizers')); // ส่งข้อมูลไปยัง view
     }
-
     public function pendingOrganizers()
     {
         $organizers = Organizer::where('is_approved', false)->get();
         return view('admin.organizers.pending', compact('organizers'));
     }
+
 
     // อนุมัติ Organizer
     public function approve($id)
@@ -33,10 +33,37 @@ class OrganizerController extends Controller
         if ($organizer) {
             $organizer->is_approved = true;
             $organizer->save();
-            return back()->with('status', 'อนุมัติผู้จัดงานเรียบร้อยแล้ว');
+    
+            // รีเซ็ต session หลังการอนุมัติ
+            session(['waiting_for_approval' => false]);
+    
+            return redirect()->route('admin.organizers.index')->with('success', 'บัญชีผู้ใช้ได้รับการอนุมัติแล้ว');
         }
-        return back()->withErrors(['error' => 'ไม่พบผู้จัดงาน']);
+    
+        return redirect()->route('admin.organizers.index')->with('error', 'ไม่พบผู้ใช้นี้');
     }
+    
+
+    // ใน Controller ที่รับคำขอ check-approval
+public function checkApproval(Request $request)
+{
+    try {
+        // ตรวจสอบว่า organizer ล็อกอินแล้วหรือยัง
+        if (auth()->check()) {
+            $organizer = auth()->user(); // ตรวจสอบกับโมเดล Organizer
+
+            // ตรวจสอบสถานะการอนุมัติ
+            if ($organizer->is_approved) {
+                return response()->json(['approved' => true]);
+            }
+        }
+
+        return response()->json(['approved' => false]);
+    } catch (\Exception $e) {
+        \Log::error('Error in checkApproval: ' . $e->getMessage());
+        return response()->json(['error' => 'Something went wrong'], 500);
+    }
+}
 
     // ฟังก์ชันแสดงฟอร์มเพิ่ม organizer ใหม่
     public function create()

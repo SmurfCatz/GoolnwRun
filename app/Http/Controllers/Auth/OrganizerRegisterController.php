@@ -65,21 +65,33 @@ class OrganizerRegisterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function Register(Request $request)
-    {
-        // ตรวจสอบข้อมูลที่ได้รับ
-        $this->validator($request->all())->validate();
+    // ใน Controller
+// ใน Controller หลังจากการลงทะเบียน
+public function register(Request $request)
+{
+    $request->validate([
+        'organizer_name' => 'required|string|max:255',
+        'organizer_email' => 'required|string|email|max:255|unique:organizers',
+        'password' => 'required|string|min:6|confirmed',
+    ]);
 
-        // สร้างผู้จัดงานใหม่
-        $organizer = $this->create($request->all());
+    // สร้าง organizer และตั้งค่า is_approved เป็น false
+    $organizer = Organizer::create([
+        'organizer_name' => $request->organizer_name,
+        'organizer_email' => $request->organizer_email,
+        'organizer_password' => Hash::make($request->password),
+        'is_approved' => false,  // สถานะรอการอนุมัติ
+    ]);
 
-        // เข้าสู่ระบบ
-        Auth::guard('organizer')->login($organizer);
+    // ตั้งค่า session ให้กับผู้ใช้
+    session(['waiting_for_approval' => true]);
+
+    // ส่งกลับไปที่หน้า Register พร้อมข้อความ
+    return redirect()->route('organizer.register')->with('waiting_for_approval', true);
+}
 
 
-        // เปลี่ยนเส้นทางไปที่หน้าหลักหลังจากลงทะเบียนสำเร็จ
-        return redirect()->route('organizer.home');
-    }
+
 
     /**
      * แสดงฟอร์มลงทะเบียนสำหรับผู้จัดงาน

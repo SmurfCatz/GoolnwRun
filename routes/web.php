@@ -48,6 +48,9 @@ Route::post('/organizer/register', [OrganizerRegisterController::class, 'registe
 Route::get('/organizer/register', [OrganizerRegisterController::class, 'showOrganizerForm'])->name('auth.organizer_register');
 Route::get('/organizer/home', [HomeController::class, 'organizerHome'])->name('organizer.home')->middleware('auth:organizer');
 
+Route::get('/check-approval', [OrganizerController::class, 'checkApproval'])->middleware('auth')->name('check.approval');
+
+
 
 Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::get('/home', [HomeController::class, 'adminHome'])->name('admin.home');
@@ -65,6 +68,7 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::get('/organizer/loading', function () {
         return view('organizer.loading');
     })->name('organizer.loading');
+
 
     Route::get('/members', [UserController::class, 'index'])->name('admin.users.index');
     Route::get('/members/create', [UserController::class, 'create'])->name('admin.users.create');

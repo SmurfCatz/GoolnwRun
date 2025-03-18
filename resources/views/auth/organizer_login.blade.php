@@ -89,3 +89,26 @@
         </div>
     </div>
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if (session('error'))
+    <script>
+        Swal.fire({
+            title: "ไม่สามารถเข้าสู่ระบบ",
+            text: "{{ session('error') }}",
+            icon: "error",
+            confirmButtonText: "ตกลง"
+        });
+    </script>
+@endif
+
+@if (session('success'))
+    <script>
+        Swal.fire({
+            title: "สำเร็จ!",
+            text: "{{ session('success') }}",
+            icon: "success",
+            confirmButtonText: "ตกลง"
+        });
+    </script>
+@endif
