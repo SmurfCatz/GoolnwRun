@@ -54,51 +54,53 @@
         </div>
     </div>
 
-    {{-- ✅ SweetAlert2 และ Modal Loading --}}
+    {{-- ✅ SweetAlert2 และ Modal Loading
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        @if (session('waiting_for_approval') === true)
+        @if (session()->has('waiting_for_approval') && session('waiting_for_approval') === true)
             <script>
                 document.addEventListener("DOMContentLoaded", function() {
-                    console.log("DOM content loaded");
+                    console.log("Session waiting_for_approval is true");
 
-                    if ("{{ session('waiting_for_approval') ? 'true' : 'false' }}" === "true") {
-                        console.log("Session waiting_for_approval is true");
+                    Swal.fire({
+                        title: "รอการอนุมัติ",
+                        text: "บัญชีของคุณถูกสร้างเรียบร้อยแล้ว กรุณารอให้แอดมินอนุมัติก่อนเข้าสู่ระบบ",
+                        icon: "info",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        didOpen: () => {
+                            Swal.showLoading(); // แสดงการโหลด
+                        }
+                    });
 
-                        Swal.fire({
-                            title: "รอการอนุมัติ",
-                            text: "บัญชีของคุณถูกสร้างเรียบร้อยแล้ว กรุณารอให้แอดมินอนุมัติก่อนเข้าสู่ระบบ",
-                            icon: "info",
-                            allowOutsideClick: false,
-                            allowEscapeKey: false,
-                            showConfirmButton: false,
-                            didOpen: () => {
-                                Swal.showLoading(); // แสดงการโหลด
-                            }
-                        });
-
-                        setInterval(() => {
-                            checkApproval();
-                        }, 5000);
-                    } else {
-                        console.log("Session waiting_for_approval is not true");
-                    }
+                    setInterval(() => {
+                        checkApproval();
+                    }, 5000);
                 });
 
                 function checkApproval() {
                     console.log("Checking approval status...");
 
-                    fetch("{{ route('check.approval') }}", {
+                    fetch("{{ route('admin.check.approval') }}", {
                             method: 'GET',
                             headers: {
                                 'Accept': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}', // หากใช้ CSRF Token
-                                // 'Authorization': 'Bearer ' + token,  // หากใช้ Token (เช่นกับ Laravel Sanctum)
-                            }
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            },
+                            credentials: 'same-origin',
                         })
-                        .then(response => response.json())
+                        .then(response => {
+                            console.log("Raw Response:", response);
+                            if (!response.ok) {
+                                throw new Error('HTTP error ' + response.status + ': ' + response.statusText);
+                            }
+                            return response.json();
+                        })
                         .then(data => {
+                            console.log("Response Data:", data);
+
                             if (data.approved) {
                                 Swal.fire({
                                     title: 'อนุมัติสำเร็จ!',
@@ -109,18 +111,24 @@
                                     window.location.href = "{{ route('organizer.login') }}";
                                 });
                             } else {
-                                Swal.fire({
-                                    title: 'ยังไม่ได้รับการอนุมัติ',
-                                    text: 'บัญชีของคุณยังคงรอการอนุมัติจากผู้ดูแล',
-                                    icon: 'warning'
-                                });
+                                console.log('ยังไม่ได้รับการอนุมัติ');
                             }
                         })
                         .catch(error => {
-                            console.error('There was a problem with the fetch operation:', error);
+                            console.error('Error:', error);
+                            Swal.fire({
+                                title: 'ข้อผิดพลาด',
+                                text: error.message || 'เกิดข้อผิดพลาดระหว่างการตรวจสอบ',
+                                icon: 'error',
+                            });
                         });
                 }
             </script>
         @endif
-    @endpush
+        @if (session()->has('waiting_for_approval'))
+            <script>
+                console.log("Session waiting_for_approval:", "{{ session('waiting_for_approval') }}");
+            </script>
+        @endif
+    @endpush --}}
 @endsection

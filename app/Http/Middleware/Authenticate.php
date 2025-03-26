@@ -13,18 +13,24 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-        return $request->expectsJson() ? null : route('login');
+        // ตรวจสอบว่าเป็น Request ของ Organizer หรือไม่
+        if ($request->is('organizer/*')) {
+        return route('auth.organizer_login'); // Redirect ไปยังหน้า Organizer Login
+    }
+
+    return $request->expectsJson() ? null : route('login'); // ค่าเริ่มต้นสำหรับผู้ใช้ทั่วไป
     }
 
     protected function authenticate($request, array $guards)
-    {
-        // ตรวจสอบว่าเป็น Guard 'organizer' หรือไม่
-        if (in_array('organizer', $guards) && Auth::guard('organizer')->check()) {
-            // ตั้ง Guard ที่ใช้งานในระบบเป็น 'organizer'
-            return Auth::shouldUse('organizer');
-        }
+{
+    \Log::info('Guards being checked: ' . implode(', ', $guards));
 
-        // ใช้ Guard อื่น ๆ ที่กำหนดไว้
-        parent::authenticate($request, $guards);
+    if (in_array('organizer', $guards) && Auth::guard('organizer')->check()) {
+        \Log::info('Authenticated as organizer');
+        return Auth::shouldUse('organizer');
     }
+
+    \Log::info('Using default authentication');
+    parent::authenticate($request, $guards);
+}
 }

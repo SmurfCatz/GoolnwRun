@@ -10,6 +10,9 @@ use App\Http\Controllers\Auth\OrganizerRegisterController;
 use App\Http\Controllers\Auth\OrganizerLoginController;
 use App\Http\Controllers\Organizer\OrganizerProfileController;
 use App\Http\Controllers\Admin\PackageController;
+use App\Http\Controllers\Organizer\EventController;
+
+
 
 
 
@@ -40,7 +43,6 @@ Route::middleware('auth:organizer')->group(function () {
 
 });
 
-
 Route::get('/organizer/login', [OrganizerLoginController::class, 'showLoginForm'])->name('auth.organizer_login');
 Route::post('/organizer/login', [OrganizerLoginController::class, 'login'])->name('organizer.login');
 Route::post('/organizer/logout', [OrganizerLoginController::class, 'logout'])->name('organizer.logout');
@@ -48,9 +50,7 @@ Route::post('/organizer/register', [OrganizerRegisterController::class, 'registe
 Route::get('/organizer/register', [OrganizerRegisterController::class, 'showOrganizerForm'])->name('auth.organizer_register');
 Route::get('/organizer/home', [HomeController::class, 'organizerHome'])->name('organizer.home')->middleware('auth:organizer');
 
-Route::get('/check-approval', [OrganizerController::class, 'checkApproval'])->middleware('auth')->name('check.approval');
-
-
+Route::middleware('auth:organizer')->get('/check-approval', [OrganizerController::class, 'checkApproval'])->name('admin.check.approval');
 
 Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::get('/home', [HomeController::class, 'adminHome'])->name('admin.home');
@@ -86,4 +86,9 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::get('/packages/{id}/edit', [PackageController::class, 'edit'])->name('admin.packages.edit');
     Route::put('/packages/{id}', [PackageController::class, 'update'])->name('admin.packages.update');
     Route::delete('/packages/{id}', [PackageController::class, 'destroy'])->name('admin.packages.destroy');
+});
+Route::middleware(['auth', 'organizer'])->prefix('organizer')->name('organizer.')->group(function () {
+    Route::get('activities', [EventController::class, 'index'])->name('activities.index');
+    Route::get('activities/create', [EventController::class, 'create'])->name('activities.create');
+    Route::post('activities/store', [EventController::class, 'store'])->name('activities.store');
 });

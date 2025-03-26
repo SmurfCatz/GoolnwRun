@@ -45,26 +45,38 @@ class OrganizerController extends Controller
     
 
     // ใน Controller ที่รับคำขอ check-approval
-public function checkApproval(Request $request)
+    public function checkApproval(Request $request)
 {
-    try {
-        // ตรวจสอบว่า organizer ล็อกอินแล้วหรือยัง
-        if (auth()->check()) {
-            $organizer = auth()->user(); // ตรวจสอบกับโมเดล Organizer
+    \Log::info('Session organizer_email: ' . session('organizer_email'));
+    \Log::info('Authenticated user: ' . auth('organizer')->user());
 
-            // ตรวจสอบสถานะการอนุมัติ
-            if ($organizer->is_approved) {
-                return response()->json(['approved' => true]);
-            }
-        }
+    $organizerEmail = session('organizer_email');
 
-        return response()->json(['approved' => false]);
-    } catch (\Exception $e) {
-        \Log::error('Error in checkApproval: ' . $e->getMessage());
-        return response()->json(['error' => 'Something went wrong'], 500);
+    if (!$organizerEmail) {
+        \Log::error('Session organizer_email is missing or expired.');
+        return response()->json([
+            'approved' => false,
+            'message' => 'Session is missing or expired.',
+        ], 401); // Unauthorized
     }
-}
 
+    $organizer = Organizer::where('organizer_email', $organizerEmail)->first();
+
+    if (!$organizer) {
+        \Log::error('Organizer not found for email: ' . $organizerEmail);
+        return response()->json([
+            'approved' => false,
+            'message' => 'Organizer not found.',
+        ], 404); // Not Found
+    }
+
+    \Log::info('Organizer approval status: ' . ($organizer->is_approved ? 'Approved' : 'Pending'));
+
+    return response()->json([
+        'approved' => $organizer->is_approved,
+        'message' => $organizer->is_approved ? 'Approved' : 'Pending approval',
+    ]);
+}
     // ฟังก์ชันแสดงฟอร์มเพิ่ม organizer ใหม่
     public function create()
     {

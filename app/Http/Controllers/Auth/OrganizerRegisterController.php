@@ -75,24 +75,20 @@ public function register(Request $request)
         'password' => 'required|string|min:6|confirmed',
     ]);
 
-    // สร้าง organizer และตั้งค่า is_approved เป็น false
     $organizer = Organizer::create([
         'organizer_name' => $request->organizer_name,
         'organizer_email' => $request->organizer_email,
         'organizer_password' => Hash::make($request->password),
-        'is_approved' => false,  // สถานะรอการอนุมัติ
+        'is_approved' => false,
     ]);
 
-    // ตั้งค่า session ให้กับผู้ใช้
+    // ตั้งค่า Session หลังจากลงทะเบียนสำเร็จ
+    session(['organizer_email' => $organizer->organizer_email]);
     session(['waiting_for_approval' => true]);
 
-    // ส่งกลับไปที่หน้า Register พร้อมข้อความ
-    return redirect()->route('organizer.register')->with('waiting_for_approval', true);
+    return redirect()->route('organizer.register')
+        ->with('waiting_for_approval', true);
 }
-
-
-
-
     /**
      * แสดงฟอร์มลงทะเบียนสำหรับผู้จัดงาน
      *
