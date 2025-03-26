@@ -87,8 +87,12 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::put('/packages/{id}', [PackageController::class, 'update'])->name('admin.packages.update');
     Route::delete('/packages/{id}', [PackageController::class, 'destroy'])->name('admin.packages.destroy');
 });
-Route::middleware(['auth', 'organizer'])->prefix('organizer')->name('organizer.')->group(function () {
-    Route::get('activities', [EventController::class, 'index'])->name('activities.index');
-    Route::get('activities/create', [EventController::class, 'create'])->name('activities.create');
-    Route::post('activities/store', [EventController::class, 'store'])->name('activities.store');
+Route::middleware(['auth:web,organizer'])->group(function () {
+    Route::get('/organizer/events', [EventController::class, 'index'])->name('organizer.events.index');
+    Route::get('/organizer/events/create', [EventController::class, 'create'])->name('organizer.events.create');
+    Route::post('/organizer/events', [EventController::class, 'store'])->name('organizer.events.store');
+    Route::get('/organizer/events/{id}', [EventController::class, 'show'])->name('organizer.events.show');
+    Route::get('/organizer/events/{id}/edit', [EventController::class, 'edit'])->name('organizer.events.edit');
+    Route::put('/organizer/events/{id}', [EventController::class, 'update'])->name('organizer.events.update');
+    Route::delete('/organizer/events/{id}', [EventController::class, 'destroy'])->name('organizer.events.destroy');
 });

@@ -14,7 +14,7 @@
             </div>
         @endif
 
-        <form action="{{ route('organizer.activities.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('organizer.events.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <!-- เลือกแพ็กเกจ -->

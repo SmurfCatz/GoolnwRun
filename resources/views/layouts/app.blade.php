@@ -118,7 +118,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link"
-                                    href="{{ route('organizer.activities.index') }}">{{ __('Activities') }}</a>
+                                    href="{{ route('organizer.events.index') }}">{{ __('Events') }}</a>
                             </li>
                         @endauth
                     </ul>
@@ -137,6 +137,7 @@
 
                                     {{ Auth::guard('web')->user()->member_name }}
                                 </a>
+
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('profile.edit') }}">
                                         Edit Profile
@@ -157,7 +158,7 @@
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <img src="{{ Auth::check() ? (Auth::user()->organizer_image ? asset('storage/' . Auth::user()->organizer_image) : asset('images/default-avatar.png')) : asset('images/default-avatar.png') }}"
+                                    <img src="{{ Auth::guard('organizer')->check() ? (Auth::guard('organizer')->user()->organizer_image ? asset('storage/' . Auth::guard('organizer')->user()->organizer_image) : asset('images/default-avatar.png')) : asset('images/default-avatar.png') }}"
                                         alt="Profile Picture" class="profile-picture" width="30" height="30"
                                         style="object-fit: cover; border-radius: 50%;">
 
