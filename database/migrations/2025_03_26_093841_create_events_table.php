@@ -18,13 +18,13 @@ return new class extends Migration
             $table->string('name');
             $table->date('event_date');
             $table->string('category');
-            $table->string('competition_type');
-            $table->text('details')->nullable();
+            $table->json('competition_types');  // ใช้ JSON แทน String สำหรับหลายประเภท
             $table->string('location');
             $table->date('registration_start');
             $table->date('registration_end');
-            $table->json('souvenirs')->nullable(); // เช่น {"medal": true, "shirt": true}
+            $table->json('medal_images')->nullable(); // แก้ไขจาก 'madal_image' เป็น 'medal_images' และใช้ JSON
             $table->string('shirt_image')->nullable();
+            $table->text('details')->nullable();
             $table->timestamps();
         });
     }

@@ -96,3 +96,4 @@ Route::middleware(['auth:web,organizer'])->group(function () {
     Route::put('/organizer/events/{id}', [EventController::class, 'update'])->name('organizer.events.update');
     Route::delete('/organizer/events/{id}', [EventController::class, 'destroy'])->name('organizer.events.destroy');
 });
+Route::post('/organizer/events/setPackage', [EventController::class, 'setPackage'])->name('organizer.events.setPackage');

@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('competition_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('event_id')->constrained()->onDelete('cascade');
-            $table->string('name');
-            $table->decimal('price', 10, 2);
-            $table->timestamps();
+            $table->foreignId('event_id')->constrained()->onDelete('cascade'); // เชื่อมโยงกับตาราง events
+            $table->string('name');  // ชื่อประเภทการแข่งขัน
+            $table->decimal('price', 10, 2);  // ราคาค่าสมัคร
+            $table->string('distance');  // ระยะทาง
+            $table->timestamps();  // วันที่สร้างและอัปเดต
         });
     }
 
