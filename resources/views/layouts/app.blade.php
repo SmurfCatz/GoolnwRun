@@ -63,11 +63,6 @@
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
             <div class="container">
-                {{-- <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{ asset('images/Screenshot_1.png') }}"
-                        alt="" width="60" height="30" class="d-inline-block align-text-top">
-                </a> --}}
-
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="https://img.freepik.com/premium-vector/run-running-people-human-man-sport-logo-vector-icon-illustration_7688-4400.jpg"
                         alt="" width="30" height="24" class="d-inline-block align-text-top">
@@ -81,132 +76,90 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         @auth
-                            <!-- เมนูสำหรับ Admin -->
-                            @if (auth()->user()->member_role === 'admin')
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('admin.home') }}">{{ __('Dashboard') }}</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                        href="{{ route('admin.users.index') }}">{{ __('Members Management') }}</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                        href="{{ route('admin.organizers.index') }}">{{ __('Organizers Management') }}</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('admin.packages.index') }}">
-                                        {{ __('Package Management') }}
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('admin.organizers.pending') }}">
-                                        {{ __('Approve Organizers') }}
-                                    </a>
-                                </li>
-                            @endif
+                        @if (auth()->user()->member_role === 'admin')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.home') }}">{{ __('Dashboard') }}</a>
+                        </li>
+                        @endif
                         @endauth
-                        <!-- เมนูสำหรับ Organizer -->
+
                         @auth('organizer')
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('organizer.home') }}">{{ __('Dashboard') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('organizer.home') }}">{{ __('Manage Events') }}</a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('organizer.home') }}">{{ __('Dashboard') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('organizer.home') }}">{{ __('Manage Events') }}</a>
+                        </li>
                         @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
                         @if (Auth::guard('web')->check())
-                            <!-- ตรวจสอบการล็อกอินของ user -->
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <img src="{{ Auth::check() ? (Auth::user()->member_image ? asset('storage/' . Auth::user()->member_image) : asset('images/default-avatar.png')) : asset('images/default-avatar.png') }}"
-                                        alt="Profile Picture" class="profile-picture" width="30" height="30"
-                                        style="object-fit: cover; border-radius: 50%;">
-
-                                    {{ Auth::guard('web')->user()->member_name }}
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <img src="{{ Auth::check() ? (Auth::user()->member_image ? asset('storage/' . Auth::user()->member_image) : asset('images/default-avatar.png')) : asset('images/default-avatar.png') }}"
+                                    alt="Profile Picture" class="profile-picture" width="30" height="30"
+                                    style="object-fit: cover; border-radius: 50%;"> {{ Auth::guard('web')->user()->member_name }}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('profile.edit') }}">Edit Profile</a>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('user-logout-form').submit();">
+                                    Logout
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('profile.edit') }}">
-                                        Edit Profile
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault(); document.getElementById('user-logout-form').submit();">
-                                        Logout
-                                    </a>
-
-                                    <form id="user-logout-form" action="{{ route('logout') }}" method="POST"
-                                        class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
+                                <form id="user-logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
                         @elseif (Auth::guard('organizer')->check())
-                            <!-- ตรวจสอบการล็อกอินของ organizer -->
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <img src="{{ Auth::check() ? (Auth::user()->organizer_image ? asset('storage/' . Auth::user()->organizer_image) : asset('images/default-avatar.png')) : asset('images/default-avatar.png') }}"
-                                        alt="Profile Picture" class="profile-picture" width="30" height="30"
-                                        style="object-fit: cover; border-radius: 50%;">
-
-
-                                    {{ Auth::guard('organizer')->user()->organizer_name }}
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <img src="{{ Auth::check() ? (Auth::user()->organizer_image ? asset('storage/' . Auth::user()->organizer_image) : asset('images/default-avatar.png')) : asset('images/default-avatar.png') }}"
+                                    alt="Profile Picture" class="profile-picture" width="30" height="30"
+                                    style="object-fit: cover; border-radius: 50%;"> {{ Auth::guard('organizer')->user()->organizer_name }}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('organizer.profile.edit') }}">Edit Profile</a>
+                                <a class="dropdown-item" href="{{ route('organizer.logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('organizer-logout-form').submit();">
+                                    Logout
                                 </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('organizer.profile.edit') }}">
-                                        Edit Profile
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('organizer.logout') }}"
-                                        onclick="event.preventDefault(); document.getElementById('organizer-logout-form').submit();">
-                                        Logout
-                                    </a>
-
-                                    <form id="organizer-logout-form" action="{{ route('organizer.logout') }}"
-                                        method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
+                                <form id="organizer-logout-form" action="{{ route('organizer.logout') }}" method="POST"
+                                    class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
                         @else
-                            <!-- ผู้ใช้ที่ยังไม่ได้ล็อกอิน -->
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-
-                            @if (Route::has('auth.organizer_login'))
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                        href="{{ route('auth.organizer_login') }}">{{ __('Organizer') }}</a>
-                                </li>
-                            @endif
+                        @if (Route::has('login'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li>
+                        @endif
+                        @if (Route::has('register'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        </li>
+                        @endif
+                        @if (Route::has('auth.organizer_login'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('auth.organizer_login') }}">{{ __('Organizer') }}</a>
+                        </li>
+                        @endif
                         @endif
                     </ul>
-
                 </div>
             </div>
         </nav>
 
-
-        <main class="py-4">
+        <main class="py-1">
             @yield('content')
         </main>
     </div>

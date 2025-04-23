@@ -11,13 +11,12 @@ use App\Http\Controllers\Auth\OrganizerLoginController;
 use App\Http\Controllers\Organizer\OrganizerProfileController;
 use App\Http\Controllers\Admin\PackageController;
 
-
+Auth::routes();
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -37,7 +36,6 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth:organizer')->group(function () {
     Route::get('/organizer/edit', [OrganizerProfileController::class, 'edit'])->name('organizer.profile.edit');
     Route::put('organizer/profile/update', [OrganizerProfileController::class, 'update'])->name('organizer.profile.update');
-
 });
 
 
