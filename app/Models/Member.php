@@ -16,12 +16,13 @@ class Member extends Authenticatable
     protected $fillable = [
         'member_name',
         'member_email',
-        'member_password',
         'member_role',
         'member_tel',
         'member_gender',
         'member_dob',
         'member_image',
+        'member_nationality',
+        'member_password',
     ];
 
     protected $hidden = [

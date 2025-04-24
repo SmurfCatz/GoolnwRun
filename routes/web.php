@@ -14,13 +14,12 @@ use App\Http\Controllers\Organizer\EventController;
 
 
 
-
+Auth::routes();
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -41,7 +40,6 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth:organizer')->group(function () {
     Route::get('/organizer/edit', [OrganizerProfileController::class, 'edit'])->name('organizer.profile.edit');
     Route::put('organizer/profile/update', [OrganizerProfileController::class, 'update'])->name('organizer.profile.update');
-
 });
 
 Route::get('/organizer/login', [OrganizerLoginController::class, 'showLoginForm'])->name('auth.organizer_login');

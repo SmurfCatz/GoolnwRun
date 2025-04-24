@@ -15,13 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('member_name');
             $table->string('member_email')->unique();
-            $table->timestamp('member_email_verified_at')->nullable();
-            $table->string('member_password');
+            $table->string('member_role')->default('user');
             $table->string('member_gender')->nullable();
             $table->string('member_dob')->nullable();
             $table->string('member_tel')->nullable();
+            $table->string('member_nationality')->nullable();
             $table->string('member_image')->nullable();
-            $table->string('member_role')->default('user');
+            $table->timestamp('member_email_verified_at')->nullable();
+            $table->string('member_password');
             $table->rememberToken();
             $table->timestamps();
         });

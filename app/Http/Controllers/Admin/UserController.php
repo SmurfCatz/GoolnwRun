@@ -21,29 +21,29 @@ class UserController extends Controller
     }
 
     // ฟังก์ชันแสดงฟอร์มเพิ่มผู้ใช้ใหม่
-    public function create()    
+    public function create()
     {
         return view('admin.users.create'); // แสดงฟอร์มเพิ่มผู้ใช้
     }
 
     // ฟังก์ชันบันทึกผู้ใช้ใหม่
     public function store(Request $request)
-{
-    $request->validate([
-        'member_name' => 'required|string|max:255',
-        'member_email' => 'required|email|unique:members,member_email',
-        'password' => 'required|string|min:8|confirmed',
-    ]);
+    {
+        $request->validate([
+            'member_name' => 'required|string|max:255',
+            'member_email' => 'required|email|unique:members,member_email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
 
-    Member::create([
-        'member_name' => $request->member_name,
-        'member_email' => $request->member_email,
-        'member_password' => bcrypt($request->password),
-    ]);
+        Member::create([
+            'member_name' => $request->member_name,
+            'member_email' => $request->member_email,
+            'member_password' => bcrypt($request->password),
+        ]);
 
-    // ส่งข้อความ success หลังการสร้างสมาชิก
-    return redirect()->route('admin.users.index')->with('success', 'Member created successfully');
-}
+        // ส่งข้อความ success หลังการสร้างสมาชิก
+        return redirect()->route('admin.users.index')->with('success', 'Member created successfully');
+    }
 
 
     // ฟังก์ชันแสดงข้อมูลของผู้ใช้
@@ -89,4 +89,3 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'Member deleted successfully');
     }
 }
-

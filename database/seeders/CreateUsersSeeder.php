@@ -17,19 +17,13 @@ class CreateUsersSeeder extends Seeder
             [
                 'member_name' => 'Admin',
                 'member_email' => 'Admin@admin.com',
-                'member_role' => 'admin', // บทบาท Admin
-                'member_password' => Hash::make('12345678') // ใช้ Hash::make แทน bcrypt
+                'member_role' => 'admin',
+                'member_password' => Hash::make('12345678')
             ],
             [
                 'member_name' => 'User',
                 'member_email' => 'User@user.com',
-                'member_role' => 'user', // บทบาท User
-                'member_password' => Hash::make('12345678')
-            ],
-            [
-                'member_name' => 'Organizer',
-                'member_email' => 'Organizer@event.com',
-                'member_role' => 'organizer', // บทบาท Organizer
+                'member_role' => 'user',
                 'member_password' => Hash::make('12345678')
             ]
         ];
