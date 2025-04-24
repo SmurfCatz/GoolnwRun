@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addressModalLabel">เพิ่มที่อยู่ใหม่</h5>
+                <h5 class="modal-title" id="addressModalLabel">ที่อยู่ในการจัดส่ง</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

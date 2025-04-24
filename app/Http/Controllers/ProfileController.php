@@ -66,4 +66,30 @@ public function update(Request $request)
     return redirect()->back()->with('success', 'อัปเดตโปรไฟล์สำเร็จ!');
 }
 
+public function removeImage(Request $request)
+{
+    $member = auth()->user(); // หรือดึงจากฐานข้อมูลด้วย id ก็ได้
+
+    
+    // ลบรูปโปรไฟล์
+    if ($member->member_image && Storage::exists('public/' . $member->member_image)) {
+        Storage::delete('public/' . $member->member_image); // ลบไฟล์จริงใน storage
+    }
+
+    $member->member_image = null; // ล้างค่าจาก database
+    $member->save();
+
+    return back()->with('success', 'ลบรูปภาพเรียบร้อยแล้ว');
+}
+
+
+
+
+
+
+
+
+
+
+
 }

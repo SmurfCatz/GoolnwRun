@@ -16,6 +16,9 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+
     <!-- Scripts -->
     @stack('scripts')
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -139,11 +142,12 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('profile.edit') }}">
-                                        Edit Profile
+                                    <i class="bi bi-person-fill"></i> บัญชีผู้ใช้
+
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault(); document.getElementById('user-logout-form').submit();">
-                                        Logout
+                                        <i class="bi bi-box-arrow-right"></i> ออกจากระบบ
                                     </a>
 
                                     <form id="user-logout-form" action="{{ route('logout') }}" method="POST"
