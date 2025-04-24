@@ -1,84 +1,74 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Login') }}</div>
 
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
+<div class="container d-flex shadow-lg my-3 max-w-sm mx-auto p-0" style="width: 1080px;">
+    <div class=" row w-100 m-0">
+        <!-- Left Side: Form -->
+        <div class="col-md-6 d-flex flex-column justify-content-center align-items-center p-5 m-0">
+            <div class="w-75">
+                <h1 class="fw-bold mb-2">WELCOME</h1>
+                <p class="text-muted mb-4">Welcome back! Please enter your details.</p>
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
 
-                            @if (session('error'))
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <strong>{{ session('error') }}</strong>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                                </div>
-                            @endif
-
-                            <div class="row mb-3">
-                                <label for="member_email"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-                                <div class="col-md-6">
-                                    <input id="member_email" type="email"
-                                        class="form-control @error('member_email') is-invalid @enderror" name="member_email"
-                                        value="{{ old('member_email') }}" required autocomplete="email" autofocus>
-                                    @error('member_email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="member_password"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-                                <div class="col-md-6">
-                                    <input id="member_password" type="password"
-                                        class="form-control @error('member_password') is-invalid @enderror"
-                                        name="member_password" required autocomplete="current-password">
-                                    @error('member_password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6 offset-md-4">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="remember" id="remember"
-                                            {{ old('remember') ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="remember">
-                                            {{ __('Remember Me') }}
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Login') }}
-                                    </button>
-
-
-                                    @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                                            {{ __('Forgot Your Password?') }}
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
-                        </form>
+                    @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{ session('error') }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                </div>
+                    @endif
+
+                    <div class="mb-3">
+                        <label for="member_email" class="form-label">Email</label>
+                        <input type="email" id="member_email" name="member_email"
+                            class="form-control @error('member_email') is-invalid @enderror"
+                            value="{{ old('member_email') }}" required autocomplete="email" autofocus
+                            placeholder="Enter your email">
+                        @error('member_email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="member_password" class="form-label">Password</label>
+                        <input type="password" id="member_password" name="member_password"
+                            class="form-control @error('member_password') is-invalid @enderror" required
+                            autocomplete="current-password" placeholder="********">
+                        @error('member_password')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                            <label for="remember" class="form-check-label">Remember me</label>
+                        </div>
+                        @if (Route::has('password.request'))
+                        <a href="{{ route('password.request') }}" class="text-decoration-none">Forgot password</a>
+                        @endif
+                    </div>
+
+                    <div class="d-grid gap-3">
+                        <button type="submit" class="btn btn-primary btn-lg">Sign in</button>
+                        <button type="submit" class="btn btn-danger btn-lg">Sign in with Google</button>
+
+                    </div>
+                </form>
+                <p class="mt-4 text-center text-muted">
+                    Don’t have an account? <a href="{{ route('register') }}" class="text-danger text-decoration-none">Sign up for free!</a>
+                </p>
             </div>
         </div>
+        <!-- Right Side: Image -->
+        <div class="col-md-6 d-flex justify-content-center align-items-center p-0 overflow-hidden">
+            <img src=" {{ asset('images/login.png') }}" alt="Login Illustration" class="img-fluid">
+        </div>
     </div>
-@endsection
+
+    @endsection

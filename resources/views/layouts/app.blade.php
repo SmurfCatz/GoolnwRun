@@ -94,9 +94,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('organizer.home') }}">{{ __('Dashboard') }}</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="{{ route('organizer.home') }}">{{ __('Manage Events') }}</a>
-                        </li>
+                        </li> -->
                         @endauth
                     </ul>
 

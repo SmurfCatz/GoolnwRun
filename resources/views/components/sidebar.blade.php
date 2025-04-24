@@ -30,6 +30,17 @@
                 <span class="ant-menu-title-content">Approve Organizers</span>
             </a>
         </li>
+        @elseif (auth('organizer'))
+        <li class="ant-menu-item ant-menu-item-only-child {{ request()->routeIs('organizer.home') ? 'active' : '' }}" role="menuitem">
+            <a href="{{ route('organizer.home') }}" class="ant-menu-item-link">
+                <span class="ant-menu-title-content">Organizer Dashboard</span>
+            </a>
+        </li>
+        <!-- <li class="ant-menu-item ant-menu-item-only-child {{ request()->routeIs('organizer.home') ? 'active' : '' }}" role="menuitem">
+            <a href="{{ route('organizer.home') }}" class="ant-menu-item-link">
+                <span class="ant-menu-title-content">Event Management</span>
+            </a>
+        </li> -->
         @endif
         @endauth
     </ul>
