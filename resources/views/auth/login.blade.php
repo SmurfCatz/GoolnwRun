@@ -5,10 +5,10 @@
 <div class="container d-flex shadow-lg my-3 max-w-sm mx-auto p-0" style="width: 1080px;">
     <div class=" row w-100 m-0">
         <!-- Left Side: Form -->
-        <div class="col-md-6 d-flex flex-column justify-content-center align-items-center p-5 m-0">
-            <div class="w-75">
-                <h1 class="fw-bold mb-2">WELCOME</h1>
-                <p class="text-muted mb-4">Welcome back! Please enter your details.</p>
+        <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center p-5 m-0">
+            <div class="w-100 px-3 px-md-5">
+                <h1 class="fw-bold mb-2 text-center text-md-start">WELCOME</h1>
+                <p class="text-muted mb-4 text-center text-md-start">Welcome back! Please enter your details.</p>
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
 
@@ -66,9 +66,11 @@
             </div>
         </div>
         <!-- Right Side: Image -->
-        <div class="col-md-6 d-flex justify-content-center align-items-center p-0 overflow-hidden">
-            <img src=" {{ asset('images/login.png') }}" alt="Login Illustration" class="img-fluid">
+        <div class="col-12 col-md-6 d-flex justify-content-center align-items-center p-0 overflow-hidden">
+            <img src=" {{ asset('images/login.png') }}" alt="Login Illustration" class="img-fluid d-none d-md-block">
         </div>
     </div>
+</div>
 
-    @endsection
+
+@endsection
