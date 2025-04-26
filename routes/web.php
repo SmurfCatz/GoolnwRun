@@ -14,7 +14,7 @@ use App\Http\Controllers\Organizer\EventController;
 
 
 
-Auth::routes();
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/remove-image', [ProfileController::class, 'removeImage'])->name('profile.removeImage');
-        
+
 
         Route::post('/address/store', [AddressController::class, 'store'])->name('address.store');
         Route::put('/address/{id}', [AddressController::class, 'updateAddress'])->name('address.update');

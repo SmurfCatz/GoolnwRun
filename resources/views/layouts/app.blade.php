@@ -9,9 +9,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>GoolnwRun</title>
-    <link rel="icon"
-        href="https://img.freepik.com/premium-vector/run-running-people-human-man-sport-logo-vector-icon-illustration_7688-4400.jpg"
-        type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/logo2.png') }}" type="image/x-icon">
+
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
@@ -40,7 +40,6 @@
         }
 
 
-
         /* เพิ่มการแสดงเงาให้ Dropdown Menu */
         .dropdown-menu {
             border-radius: 8px;
@@ -65,11 +64,11 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top" style="">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="https://img.freepik.com/premium-vector/run-running-people-human-man-sport-logo-vector-icon-illustration_7688-4400.jpg"
-                        alt="" width="30" height="24" class="d-inline-block align-text-top">
+                    <img src="{{ asset('images/logo2.png') }}"
+                        alt="" width="30" height="26" class="d-inline-block align-text-top">
                     GoolnwRun
                 </a>
 
@@ -79,7 +78,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent" style="height: 42px;">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         @auth
@@ -104,10 +103,10 @@
                     <ul class="navbar-nav ms-auto">
                         @if (Auth::guard('web')->check())
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle p-2" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 <img src="{{ Auth::check() ? (Auth::user()->member_image ? asset('storage/' . Auth::user()->member_image) : asset('images/default-avatar.png')) : asset('images/default-avatar.png') }}"
-                                    alt="Profile Picture" class="profile-picture" width="30" height="30"
+                                    alt="Profile Picture" class="profile-picture" width="30" height="26"
                                     style="object-fit: cover; border-radius: 50%;"> {{ Auth::guard('web')->user()->member_name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -144,14 +143,10 @@
                         @else
                         @if (Route::has('login'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login | Register') }}</a>
                         </li>
                         @endif
-                        @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                        @endif
+
                         @if (Route::has('auth.organizer_login'))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('auth.organizer_login') }}">{{ __('Organizer') }}</a>

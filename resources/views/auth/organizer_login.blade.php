@@ -1,90 +1,74 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Organizer Login') }}</div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('organizer.login') }}">
-                        @csrf
+<div class="container d-flex shadow-lg my-3 max-w-sm mx-auto p-0" style="width: 1080px;">
+    <div class=" row w-100 m-0">
+        <!-- Left Side: Form -->
+        <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center p-5 m-0">
+            <div class="w-100 px-3 px-md-5">
+                <h1 class="fw-bold mb-2 text-center text-md-start">WELCOME ORGANIZER</h1>
+                <p class="text-muted mb-4 text-center text-md-start">Welcome Organizer!!! Please enter your details.</p>
+                <form method="POST" action="{{ route('organizer.login') }}">
+                    @csrf
 
-                        @if (session('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong>{{ session('error') }}</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                aria-label="Close"></button>
+                    @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{ session('error') }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
+
+                    <div class="mb-3">
+                        <label for="organizer_email" class="form-label">Email</label>
+                        <input type="email" id="organizer_email" name="organizer_email"
+                            class="form-control @error('organizer_email') is-invalid @enderror"
+                            value="{{ old('organizer_email') }}" required autocomplete="email" autofocus
+                            placeholder="Enter your email">
+                        @error('organizer_email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="organizer_password" class="form-label">Password</label>
+                        <input type="password" id="organizer_password" name="organizer_password"
+                            class="form-control @error('organizer_password') is-invalid @enderror" required
+                            autocomplete="current-password" placeholder="********">
+                        @error('organizer_password')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }} class="me-1">
+                            <label for="remember" class="form-check-label">Remember me</label>
                         </div>
+                        @if (Route::has('password.request'))
+                        <a href="{{ route('password.request') }}" class="text-decoration-none">Forgot password</a>
                         @endif
+                    </div>
 
-                        <div class="row mb-3">
-                            <label for="organizer_email"
-                                class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-                            <div class="col-md-6">
-                                <input id="organizer_email" type="email"
-                                    class="form-control @error('organizer_email') is-invalid @enderror"
-                                    name="organizer_email" value="{{ old('organizer_email') }}" required
-                                    autocomplete="email" autofocus>
-                                @error('organizer_email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
+                    <div class="d-grid gap-3">
+                        <button type="submit" class="btn btn-primary btn-lg">Sign in</button>
+                        <button type="submit" class="btn btn-danger btn-lg">Sign in with Google</button>
 
-                        <div class="row mb-3">
-                            <label for="organizer_password"
-                                class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-                            <div class="col-md-6">
-                                <input id="organizer_password" type="password"
-                                    class="form-control @error('organizer_password') is-invalid @enderror"
-                                    name="organizer_password" required autocomplete="current-password">
-                                @error('organizer_password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember"
-                                        {{ old('remember') ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
-                                </a>
-                                @endif
-
-
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="text-end">
-                    <a class="btn btn-link btn-sm mb-3" href="{{ route('auth.organizer_register') }}">
-                        {{ __('หากยังไม่ได้สมัครสมาชิกโปรด ลงทะเบียน') }}
-                    </a>
-                </div>
+                    </div>
+                </form>
+                <p class="mt-4 text-center text-muted">
+                    Don’t have an account? <a href="{{ route('auth.organizer_register') }}" class="text-danger text-decoration-none">Sign up for free!</a>
+                </p>
             </div>
+        </div>
+        <!-- Right Side: Image -->
+        <div class="col-12 col-md-6 d-flex justify-content-center align-items-center p-0 overflow-hidden">
+            <img src=" {{ asset('images\login organizer.jpg') }}" alt="Login Illustration" class="img-fluid d-none d-md-block"
+                style="width: 540px; height: 640px;">
         </div>
     </div>
 </div>

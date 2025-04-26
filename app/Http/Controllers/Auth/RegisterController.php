@@ -38,13 +38,14 @@ class RegisterController extends Controller
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
-{
-    return Validator::make($data, [
-        'member_name' => ['required', 'string', 'max:255'],
-        'member_email' => ['required', 'string', 'email', 'max:255', 'unique:members'],
-        'password' => ['required', 'string', 'min:8', 'confirmed'], // การใช้ 'confirmed'
-    ]);
-}
+    {
+        return Validator::make($data, [
+            'member_name' => ['required', 'string', 'max:255'],
+            'member_email' => ['required', 'string', 'email', 'max:255', 'unique:members'],
+            'member_tel' => ['required', 'regex:/^\d{3}-\d{3}-\d{4}$/'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'], // การใช้ 'confirmed'
+        ]);
+    }
 
     /**
      * สร้างผู้ใช้ใหม่หลังจากการลงทะเบียนที่ถูกต้อง
@@ -53,14 +54,15 @@ class RegisterController extends Controller
      * @return \App\Models\Member
      */
     protected function create(array $data)
-{
-    return Member::create([
-        'member_name' => $data['member_name'],
-        'member_email' => $data['member_email'],
-        'member_password' => Hash::make($data['password']),  // ใช้ 'member_password' ที่นี่
-        'member_role' => 'user', 
-    ]);
-}
+    {
+        return Member::create([
+            'member_name' => $data['member_name'],
+            'member_email' => $data['member_email'],
+            'member_tel' => $data['member_tel'],
+            'member_password' => Hash::make($data['password']),  // ใช้ 'member_password' ที่นี่
+            'member_role' => 'user',
+        ]);
+    }
     /**
      * จัดการคำขอลงทะเบียนสำหรับผู้ใช้
      *
@@ -80,45 +82,4 @@ class RegisterController extends Controller
         // เปลี่ยนเส้นทางไปที่หน้าจัดการโปรไฟล์
         return redirect()->route('profile.edit');
     }
-
-    /**
-     * จัดการการลงทะเบียนของผู้จัดงาน
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function registerOrganizer(Request $request)
-    {
-        $request->validate([
-            'member_name' => ['required', 'string', 'max:255'],
-            'member_email' => ['required', 'string', 'email', 'max:255', 'unique:Member'],
-            'member_password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-
-        // สร้างผู้จัดงาน
-        $Member = Member::create([
-            'member_name' => $request->member_name,
-            'member_email' => $request->member_email,
-            'member_password' => Hash::make($request->member_password),
-            'member_role' => 'organizer', // ตั้ง role เป็น 'organizer'
-        ]);
-
-        // เข้าสู่ระบบ
-        auth()->login($Member);
-
-        // เปลี่ยนเส้นทางไปที่หน้า home
-        return redirect('home');
-    }
-
-    /**
-     * แสดงฟอร์มลงทะเบียนสำหรับผู้จัดงาน
-     *
-     * @return \Illuminate\View\View
-     */
-    public function showOrganizerForm()
-    {
-        return view('auth.organizer_register');
-    }
 }
-
-

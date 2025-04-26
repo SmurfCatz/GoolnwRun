@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Member;
@@ -22,74 +23,63 @@ class ProfileController extends Controller
     public function edit()
     {
         $Member = Auth::user();
-        $Addresses = $Member->addresses; 
+        $Addresses = $Member->addresses;
         return view('profile.edit', compact('Member', 'Addresses'));
     }
 
     // อัปเดตข้อมูลโปรไฟล์
     // อัปเดตข้อมูลโปรไฟล์
-public function update(Request $request)
-{
-    $Member = Auth::user(); // ดึงข้อมูลผู้ใช้ปัจจุบัน
+    public function update(Request $request)
+    {
+        $Member = Auth::user(); // ดึงข้อมูลผู้ใช้ปัจจุบัน
 
-    // กำหนด validation
-    $request->validate([
-        'member_name' => 'required|string|max:255',
-        'member_email' => 'required|email|max:255|unique:members,member_email,' . $Member->id,
-        'member_tel' => 'nullable|string|max:15',
-        'member_gender' => 'nullable|string',
-        'member_dob' => 'nullable|date',
-        'member_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-    ]);
+        // กำหนด validation
+        $request->validate([
+            'member_name' => 'required|string|max:255',
+            'member_email' => 'required|email|max:255|unique:members,member_email,' . $Member->id,
+            'member_tel' => 'required|regex:/^\d{3}-\d{3}-\d{4}$/|unique:members,member_tel,' . $Member->id,
+            'member_gender' => 'nullable|string',
+            'member_dob' => 'nullable|date',
+            'member_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
 
-    // อัปโหลดรูปภาพใหม่
-    if ($request->hasFile('member_image')) {
-        // ลบรูปเก่า (ถ้ามี)
-        if ($Member->member_image) {
-            Storage::delete('public/' . $Member->member_image); // ลบรูปเก่าที่เก็บไว้
+        // อัปโหลดรูปภาพใหม่
+        if ($request->hasFile('member_image')) {
+            // ลบรูปเก่า (ถ้ามี)
+            if ($Member->member_image) {
+                Storage::delete('public/' . $Member->member_image); // ลบรูปเก่าที่เก็บไว้
+            }
+
+            // อัปโหลดไฟล์ใหม่
+            $imagePath = $request->file('member_image')->store('profiles', 'public'); // เก็บใน directory 'profiles'
+            $Member->member_image = $imagePath; // เก็บ path ของรูปภาพในฐานข้อมูล
         }
-        
-        // อัปโหลดไฟล์ใหม่
-        $imagePath = $request->file('member_image')->store('profiles', 'public'); // เก็บใน directory 'profiles'
-        $Member->member_image = $imagePath; // เก็บ path ของรูปภาพในฐานข้อมูล
+
+        // อัปเดตข้อมูลโปรไฟล์
+        $Member->update([
+            'member_name' => $request->member_name,
+            'member_email' => $request->member_email,
+            'member_tel' => $request->member_tel,
+            'member_gender' => $request->member_gender,
+            'member_dob' => $request->member_dob,
+        ]);
+
+        return redirect()->back()->with('success', 'อัปเดตโปรไฟล์สำเร็จ!');
     }
 
-    // อัปเดตข้อมูลโปรไฟล์
-    $Member->update([
-        'member_name' => $request->member_name,
-        'member_email' => $request->member_email,
-        'member_tel' => $request->member_tel,
-        'member_gender' => $request->member_gender,
-        'member_dob' => $request->member_dob,
-    ]);
+    public function removeImage(Request $request)
+    {
+        $member = auth()->user(); // หรือดึงจากฐานข้อมูลด้วย id ก็ได้
 
-    return redirect()->back()->with('success', 'อัปเดตโปรไฟล์สำเร็จ!');
-}
 
-public function removeImage(Request $request)
-{
-    $member = auth()->user(); // หรือดึงจากฐานข้อมูลด้วย id ก็ได้
+        // ลบรูปโปรไฟล์
+        if ($member->member_image && Storage::exists('public/' . $member->member_image)) {
+            Storage::delete('public/' . $member->member_image); // ลบไฟล์จริงใน storage
+        }
 
-    
-    // ลบรูปโปรไฟล์
-    if ($member->member_image && Storage::exists('public/' . $member->member_image)) {
-        Storage::delete('public/' . $member->member_image); // ลบไฟล์จริงใน storage
+        $member->member_image = null; // ล้างค่าจาก database
+        $member->save();
+
+        return back()->with('success', 'ลบรูปภาพเรียบร้อยแล้ว');
     }
-
-    $member->member_image = null; // ล้างค่าจาก database
-    $member->save();
-
-    return back()->with('success', 'ลบรูปภาพเรียบร้อยแล้ว');
-}
-
-
-
-
-
-
-
-
-
-
-
 }

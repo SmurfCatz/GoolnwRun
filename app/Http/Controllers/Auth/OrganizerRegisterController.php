@@ -39,7 +39,8 @@ class OrganizerRegisterController extends Controller
         return Validator::make($data, [
             'organizer_name' => ['required', 'string', 'max:255'],
             'organizer_email' => ['required', 'string', 'email', 'max:255', 'unique:organizers'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],  // การใช้ 'confirmed'
+            'organizer_tel' => ['required', 'regex:/^\d{3}-\d{3}-\d{4}$/'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
     }
 
@@ -54,8 +55,9 @@ class OrganizerRegisterController extends Controller
         return Organizer::create([
             'organizer_name' => $data['organizer_name'],
             'organizer_email' => $data['organizer_email'],
+            'organizer_tel' => $data['organizer_tel'],
             'organizer_password' => Hash::make($data['password']),
-             'is_approved' => false,  // กำหนดให้รอการอนุมัติ
+            'is_approved' => false,
         ]);
     }
 
@@ -65,30 +67,29 @@ class OrganizerRegisterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    // ใน Controller
-// ใน Controller หลังจากการลงทะเบียน
-public function register(Request $request)
-{
-    $request->validate([
-        'organizer_name' => 'required|string|max:255',
-        'organizer_email' => 'required|string|email|max:255|unique:organizers',
-        'password' => 'required|string|min:6|confirmed',
-    ]);
 
-    $organizer = Organizer::create([
-        'organizer_name' => $request->organizer_name,
-        'organizer_email' => $request->organizer_email,
-        'organizer_password' => Hash::make($request->password),
-        'is_approved' => false,
-    ]);
+    public function register(Request $request)
+    {
+        $request->validate([
+            'organizer_name' => 'required|string|max:255',
+            'organizer_email' => 'required|string|email|max:255|unique:organizers',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
 
-    // ตั้งค่า Session หลังจากลงทะเบียนสำเร็จ
-    session(['organizer_email' => $organizer->organizer_email]);
-    session(['waiting_for_approval' => true]);
+        $organizer = Organizer::create([
+            'organizer_name' => $request->organizer_name,
+            'organizer_email' => $request->organizer_email,
+            'organizer_password' => Hash::make($request->password),
+            'is_approved' => false,
+        ]);
 
-    return redirect()->route('organizer.register')
-        ->with('waiting_for_approval', true);
-}
+        // ตั้งค่า Session หลังจากลงทะเบียนสำเร็จ
+        session(['organizer_email' => $organizer->organizer_email]);
+        session(['waiting_for_approval' => true]);
+
+        return redirect()->route('organizer.login')
+            ->with('waiting_for_approval', true);
+    }
     /**
      * แสดงฟอร์มลงทะเบียนสำหรับผู้จัดงาน
      *
@@ -99,4 +100,3 @@ public function register(Request $request)
         return view('auth.organizer_register');
     }
 }
-
