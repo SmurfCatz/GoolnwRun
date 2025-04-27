@@ -33,7 +33,7 @@
                                 <tr>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Email') }}</th>
-                                    <th>{{ __('role') }}</th>
+                                    <th>{{ __('Role') }}</th>
                                     <th class="text-center">{{ __('Actions') }}</th>
                                 </tr>
                             </thead>
@@ -45,7 +45,7 @@
                                     <td>{{ $member->member_role }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.users.edit', $member->id) }}" class="btn btn-warning btn-sm">{{ __('Edit') }}</a>
-                                        <form action="{{ route('admin.users.destroy', $member->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('{{ __('Are you sure you want to delete this member?') }}')">
+                                        <form action="{{ route('admin.users.destroy', $member->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this member?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm">{{ __('Delete') }}</button>

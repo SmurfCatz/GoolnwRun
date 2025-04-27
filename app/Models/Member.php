@@ -17,11 +17,11 @@ class Member extends Authenticatable
         'member_name',
         'member_email',
         'member_role',
-        'member_tel',
         'member_gender',
         'member_dob',
-        'member_image',
+        'member_tel',
         'member_nationality',
+        'member_image',
         'member_password',
     ];
 
@@ -39,8 +39,7 @@ class Member extends Authenticatable
      * ความสัมพันธ์แบบ One-to-One กับ Address
      */
     public function addresses()
-{
-    return $this->hasMany(Address::class);
-}
-
+    {
+        return $this->hasMany(Address::class);
+    }
 }

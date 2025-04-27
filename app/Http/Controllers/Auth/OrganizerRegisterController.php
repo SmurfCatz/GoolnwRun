@@ -73,12 +73,14 @@ class OrganizerRegisterController extends Controller
         $request->validate([
             'organizer_name' => 'required|string|max:255',
             'organizer_email' => 'required|string|email|max:255|unique:organizers',
+            'organizer_tel' => 'required|regex:/^\d{3}-\d{3}-\d{4}$/',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
         $organizer = Organizer::create([
             'organizer_name' => $request->organizer_name,
             'organizer_email' => $request->organizer_email,
+            'organizer_tel' => $request->organizer_tel,
             'organizer_password' => Hash::make($request->password),
             'is_approved' => false,
         ]);

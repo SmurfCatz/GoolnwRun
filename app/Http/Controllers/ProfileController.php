@@ -31,7 +31,8 @@ class ProfileController extends Controller
     // อัปเดตข้อมูลโปรไฟล์
     public function update(Request $request)
     {
-        $Member = Auth::user(); // ดึงข้อมูลผู้ใช้ปัจจุบัน
+        /** @var \App\Models\Member $Member */
+        $Member = Auth::user();
 
         // กำหนด validation
         $request->validate([
@@ -40,6 +41,7 @@ class ProfileController extends Controller
             'member_tel' => 'required|regex:/^\d{3}-\d{3}-\d{4}$/|unique:members,member_tel,' . $Member->id,
             'member_gender' => 'nullable|string',
             'member_dob' => 'nullable|date',
+            'member_nationality' => 'nullable|string',
             'member_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
@@ -62,6 +64,7 @@ class ProfileController extends Controller
             'member_tel' => $request->member_tel,
             'member_gender' => $request->member_gender,
             'member_dob' => $request->member_dob,
+            'member_nationality' => $request->member_nationality,
         ]);
 
         return redirect()->back()->with('success', 'อัปเดตโปรไฟล์สำเร็จ!');
@@ -69,16 +72,15 @@ class ProfileController extends Controller
 
     public function removeImage(Request $request)
     {
-        $member = auth()->user(); // หรือดึงจากฐานข้อมูลด้วย id ก็ได้
-
+        $Member = Member::findOrFail(auth()->id());
 
         // ลบรูปโปรไฟล์
-        if ($member->member_image && Storage::exists('public/' . $member->member_image)) {
-            Storage::delete('public/' . $member->member_image); // ลบไฟล์จริงใน storage
+        if ($Member->member_image && Storage::exists('public/' . $Member->member_image)) {
+            Storage::delete('public/' . $Member->member_image); // ลบไฟล์จริงใน storage
         }
 
-        $member->member_image = null; // ล้างค่าจาก database
-        $member->save();
+        $Member->member_image = null; // ล้างค่าจาก database
+        $Member->save();
 
         return back()->with('success', 'ลบรูปภาพเรียบร้อยแล้ว');
     }
