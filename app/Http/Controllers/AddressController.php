@@ -81,12 +81,13 @@ class AddressController extends Controller
     }
 
     // ลบที่อยู่
-    public function deleteAddress($id)
+    public function destroy($id)
 {
-    $address = Address::findOrFail($id); // ค้นหาที่อยู่ตาม ID
-    $address->delete(); // ลบที่อยู่
+    $address = Address::findOrFail($id);
+    $address->delete();
 
-    return redirect()->back()->with('success', 'ที่อยู่ถูกลบเรียบร้อยแล้ว');
+    return redirect()->back()->with('success', 'ลบที่อยู่เรียบร้อยแล้ว');
 }
+
 
 }

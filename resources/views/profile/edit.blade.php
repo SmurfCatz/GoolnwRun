@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+
+<div style="background-color: #02778B; min-height: 100vh; padding: 2rem 0;">
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -13,7 +15,7 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+                <form id="profileForm" method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -78,10 +80,7 @@
                             <input type="date" class="form-control" id="member_dob" name="member_dob" value="{{ old('member_dob', $Member->member_dob) }}">
                         </div>
 
-                        <!-- ปุ่มบันทึกโปรไฟล์ -->
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary">บันทึก</button>
-                        </div>
+                        
                     </div>
                 </form>
 
@@ -176,6 +175,11 @@
                     <div class="mb-3">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addressModal">เพิ่มที่อยู่ใหม่</button>
                     </div>
+
+
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-success px-5" onclick="submitProfileForm()">บันทึกข้อมูลทั้งหมด</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -199,7 +203,14 @@
             document.getElementById('formRemoveImage').submit();
         }
     }
+
+    function submitProfileForm() {
+        document.getElementById('profileForm').submit();
+    }
+
 </script>
+
+
 
 <style>
     .profile-picture-container {

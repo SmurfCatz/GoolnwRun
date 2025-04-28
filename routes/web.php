@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth; // <--- เพิ่มบรรทัดนี้ด้วย
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\OrganizerController;
@@ -12,16 +13,17 @@ use App\Http\Controllers\Organizer\OrganizerProfileController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Organizer\EventController;
 
-
-
-
-
 Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+// ✅ เพิ่มตรงนี้เพื่อแก้ Route [logout] not defined.
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/');
+})->name('logout');
 
 // Routes for authenticated users
 Route::middleware('auth')->group(function () {
@@ -30,13 +32,13 @@ Route::middleware('auth')->group(function () {
         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/remove-image', [ProfileController::class, 'removeImage'])->name('profile.removeImage');
 
-
         Route::post('/address/store', [AddressController::class, 'store'])->name('address.store');
         Route::put('/address/{id}', [AddressController::class, 'updateAddress'])->name('address.update');
-        Route::delete('/address/{id}', [AddressController::class, 'deleteAddress'])->name('address.delete');
+        Route::delete('/address/{id}', [AddressController::class, 'destroy'])->name('address.delete');
     });
 });
 
+// Organizer Routes
 Route::middleware('auth:organizer')->group(function () {
     Route::get('/organizer/edit', [OrganizerProfileController::class, 'edit'])->name('organizer.profile.edit');
     Route::put('organizer/profile/update', [OrganizerProfileController::class, 'update'])->name('organizer.profile.update');
@@ -68,7 +70,6 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
         return view('organizer.loading');
     })->name('organizer.loading');
 
-
     Route::get('/members', [UserController::class, 'index'])->name('admin.users.index');
     Route::get('/members/create', [UserController::class, 'create'])->name('admin.users.create');
     Route::post('/members', [UserController::class, 'store'])->name('admin.users.store');
@@ -77,8 +78,6 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::put('/members/{members}', [UserController::class, 'update'])->name('admin.users.update');
     Route::delete('/members/{members}', [UserController::class, 'destroy'])->name('admin.users.destroy');
 
-
-
     Route::get('/packages', [PackageController::class, 'index'])->name('admin.packages.index');
     Route::get('/packages/create', [PackageController::class, 'create'])->name('admin.packages.create');
     Route::post('/packages', [PackageController::class, 'store'])->name('admin.packages.store');
@@ -86,6 +85,7 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::put('/packages/{id}', [PackageController::class, 'update'])->name('admin.packages.update');
     Route::delete('/packages/{id}', [PackageController::class, 'destroy'])->name('admin.packages.destroy');
 });
+
 Route::middleware(['auth:web,organizer'])->group(function () {
     Route::get('/organizer/events', [EventController::class, 'index'])->name('organizer.events.index');
     Route::get('/organizer/events/create', [EventController::class, 'create'])->name('organizer.events.create');
@@ -95,4 +95,5 @@ Route::middleware(['auth:web,organizer'])->group(function () {
     Route::put('/organizer/events/{id}', [EventController::class, 'update'])->name('organizer.events.update');
     Route::delete('/organizer/events/{id}', [EventController::class, 'destroy'])->name('organizer.events.destroy');
 });
+
 Route::post('/organizer/events/setPackage', [EventController::class, 'setPackage'])->name('organizer.events.setPackage');

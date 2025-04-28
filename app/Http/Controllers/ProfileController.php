@@ -38,10 +38,9 @@ class ProfileController extends Controller
         $request->validate([
             'member_name' => 'required|string|max:255',
             'member_email' => 'required|email|max:255|unique:members,member_email,' . $Member->id,
-            'member_tel' => 'required|regex:/^\d{3}-\d{3}-\d{4}$/|unique:members,member_tel,' . $Member->id,
+            'member_tel' => 'required|regex:/^[0-9]{9,10}$/|unique:members,member_tel,' . $Member->id,
             'member_gender' => 'nullable|string',
             'member_dob' => 'nullable|date',
-            'member_nationality' => 'nullable|string',
             'member_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
@@ -64,7 +63,7 @@ class ProfileController extends Controller
             'member_tel' => $request->member_tel,
             'member_gender' => $request->member_gender,
             'member_dob' => $request->member_dob,
-            'member_nationality' => $request->member_nationality,
+            
         ]);
 
         return redirect()->back()->with('success', 'อัปเดตโปรไฟล์สำเร็จ!');
