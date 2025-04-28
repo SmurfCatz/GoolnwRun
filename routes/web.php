@@ -1,99 +1,98 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth; // <--- เพิ่มบรรทัดนี้ด้วย
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\OrganizerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\OrganizerRegisterController;
 use App\Http\Controllers\Auth\OrganizerLoginController;
 use App\Http\Controllers\Organizer\OrganizerProfileController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Organizer\EventController;
 
+// =========================
+// Home Route
+// =========================
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-// ✅ เพิ่มตรงนี้เพื่อแก้ Route [logout] not defined.
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/');
-})->name('logout');
+// =========================
+// Auth Routes for Users (Web Guard)
+// =========================
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-// Routes for authenticated users
-Route::middleware('auth')->group(function () {
-    Route::prefix('profile')->group(function () {
-        Route::get('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/remove-image', [ProfileController::class, 'removeImage'])->name('profile.removeImage');
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [RegisterController::class, 'register']);
 
-        Route::post('/address/store', [AddressController::class, 'store'])->name('address.store');
-        Route::put('/address/{id}', [AddressController::class, 'updateAddress'])->name('address.update');
-        Route::delete('/address/{id}', [AddressController::class, 'destroy'])->name('address.delete');
-    });
+// =========================
+// Profile and Address Management for Users
+// =========================
+Route::middleware('auth')->prefix('profile')->group(function () {
+    Route::get('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/remove-image', [ProfileController::class, 'removeImage'])->name('profile.removeImage');
+
+    Route::post('/address/store', [AddressController::class, 'store'])->name('address.store');
+    Route::put('/address/{id}', [AddressController::class, 'updateAddress'])->name('address.update');
+    Route::delete('/address/{id}', [AddressController::class, 'deleteAddress'])->name('address.delete');
 });
 
-// Organizer Routes
-Route::middleware('auth:organizer')->group(function () {
-    Route::get('/organizer/edit', [OrganizerProfileController::class, 'edit'])->name('organizer.profile.edit');
-    Route::put('organizer/profile/update', [OrganizerProfileController::class, 'update'])->name('organizer.profile.update');
-});
-
+// =========================
+// Organizer Authentication Routes
+// =========================
 Route::get('/organizer/login', [OrganizerLoginController::class, 'showLoginForm'])->name('auth.organizer_login');
 Route::post('/organizer/login', [OrganizerLoginController::class, 'login'])->name('organizer.login');
 Route::post('/organizer/logout', [OrganizerLoginController::class, 'logout'])->name('organizer.logout');
-Route::post('/organizer/register', [OrganizerRegisterController::class, 'register'])->name('organizer.register');
+
 Route::get('/organizer/register', [OrganizerRegisterController::class, 'showOrganizerForm'])->name('auth.organizer_register');
+Route::post('/organizer/register', [OrganizerRegisterController::class, 'register'])->name('organizer.register');
+
 Route::get('/organizer/home', [HomeController::class, 'organizerHome'])->name('organizer.home')->middleware('auth:organizer');
 
-Route::middleware('auth:organizer')->get('/check-approval', [OrganizerController::class, 'checkApproval'])->name('admin.check.approval');
+// =========================
+// Organizer Profile Management
+// =========================
+Route::middleware('auth:organizer')->group(function () {
+    Route::get('/organizer/edit', [OrganizerProfileController::class, 'edit'])->name('organizer.profile.edit');
+    Route::put('/organizer/profile/update', [OrganizerProfileController::class, 'update'])->name('organizer.profile.update');
+    Route::get('/check-approval', [OrganizerController::class, 'checkApproval'])->name('admin.check.approval');
+});
 
+// =========================
+// Admin Routes (Manage Organizers, Members, Packages)
+// =========================
 Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::get('/home', [HomeController::class, 'adminHome'])->name('admin.home');
 
-    Route::get('/organizers', [OrganizerController::class, 'index'])->name('admin.organizers.index');
-    Route::get('/organizers/create', [OrganizerController::class, 'create'])->name('admin.organizers.create');
-    Route::post('/organizers', [OrganizerController::class, 'store'])->name('admin.organizers.store');
-    Route::get('/organizers/{organizers}', [OrganizerController::class, 'show'])->name('admin.organizers.show');
-    Route::get('/organizers/{organizers}/edit', [OrganizerController::class, 'edit'])->name('admin.organizers.edit');
-    Route::put('/organizers/{organizers}', [OrganizerController::class, 'update'])->name('admin.organizers.update');
-    Route::delete('/organizers/{organizers}', [OrganizerController::class, 'destroy'])->name('admin.organizers.destroy');
-
-    Route::get('/admin/organizers/pending', [OrganizerController::class, 'pendingOrganizers'])->name('admin.organizers.pending');
+    // Organizer Management
+    Route::resource('organizers', OrganizerController::class, ['as' => 'admin.organizers'])->except(['edit', 'update', 'destroy']);
+    Route::get('/organizers/{organizer}/edit', [OrganizerController::class, 'edit'])->name('admin.organizers.edit');
+    Route::put('/organizers/{organizer}', [OrganizerController::class, 'update'])->name('admin.organizers.update');
+    Route::delete('/organizers/{organizer}', [OrganizerController::class, 'destroy'])->name('admin.organizers.destroy');
+    Route::get('/organizers/pending', [OrganizerController::class, 'pendingOrganizers'])->name('admin.organizers.pending');
     Route::post('/organizers/approve/{id}', [OrganizerController::class, 'approve'])->name('admin.organizers.approve');
-    Route::get('/organizer/loading', function () {
-        return view('organizer.loading');
-    })->name('organizer.loading');
 
-    Route::get('/members', [UserController::class, 'index'])->name('admin.users.index');
-    Route::get('/members/create', [UserController::class, 'create'])->name('admin.users.create');
-    Route::post('/members', [UserController::class, 'store'])->name('admin.users.store');
-    Route::get('/members/{members}', [UserController::class, 'show'])->name('admin.users.show');
-    Route::get('/members/{members}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
-    Route::put('/members/{members}', [UserController::class, 'update'])->name('admin.users.update');
-    Route::delete('/members/{members}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+    // Member Management
+    Route::resource('members', UserController::class, ['as' => 'admin.users']);
 
-    Route::get('/packages', [PackageController::class, 'index'])->name('admin.packages.index');
-    Route::get('/packages/create', [PackageController::class, 'create'])->name('admin.packages.create');
-    Route::post('/packages', [PackageController::class, 'store'])->name('admin.packages.store');
-    Route::get('/packages/{id}/edit', [PackageController::class, 'edit'])->name('admin.packages.edit');
-    Route::put('/packages/{id}', [PackageController::class, 'update'])->name('admin.packages.update');
-    Route::delete('/packages/{id}', [PackageController::class, 'destroy'])->name('admin.packages.destroy');
+    // Package Management
+    Route::resource('packages', PackageController::class, ['as' => 'admin.packages']);
 });
 
-Route::middleware(['auth:web,organizer'])->group(function () {
-    Route::get('/organizer/events', [EventController::class, 'index'])->name('organizer.events.index');
-    Route::get('/organizer/events/create', [EventController::class, 'create'])->name('organizer.events.create');
-    Route::post('/organizer/events', [EventController::class, 'store'])->name('organizer.events.store');
-    Route::get('/organizer/events/{id}', [EventController::class, 'show'])->name('organizer.events.show');
-    Route::get('/organizer/events/{id}/edit', [EventController::class, 'edit'])->name('organizer.events.edit');
-    Route::put('/organizer/events/{id}', [EventController::class, 'update'])->name('organizer.events.update');
-    Route::delete('/organizer/events/{id}', [EventController::class, 'destroy'])->name('organizer.events.destroy');
+// =========================
+// Organizer Events Management
+// =========================
+Route::middleware('auth:web,organizer')->group(function () {
+    Route::resource('organizer/events', EventController::class, ['as' => 'organizer.events']);
 });
 
 Route::post('/organizer/events/setPackage', [EventController::class, 'setPackage'])->name('organizer.events.setPackage');
