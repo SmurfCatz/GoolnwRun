@@ -246,12 +246,12 @@
 
                     <!-- ปุ่มเพิ่มที่อยู่ใหม่ -->
                     <div class="mb-3">
-                        <button type="button" class="btn-add-address" data-bs-toggle="modal" data-bs-target="#addressModal">เพิ่มที่อยู่ใหม่</button>
+                        <button type="button" class="btn-add-address" data-bs-toggle="modal" data-bs-target="#addressModal"> + เพิ่มที่อยู่ใหม่</button>
                     </div>
 
 
                     <div class="text-center mt-4">
-                        <button type="button" class="btn btn-success px-5" onclick="submitProfileForm()">บันทึกข้อมูลทั้งหมด</button>
+                        <button type="button" class="btn-submit px-5" onclick="submitProfileForm()">บันทึกข้อมูลทั้งหมด</button>
                     </div>
                 </div>
             </div>
@@ -314,10 +314,9 @@
     }
     
     .btn-add-address {
-        background-color:rgb(130, 66, 225);
-        color:rgb(255, 255, 255);
+        background-color:rgb(225, 216, 238);
+        color:rgb(130, 66, 225);
         border: none;
-        padding: 8px 16px;
         border-radius: 12px;
         font-weight: 500;
         font-size: 16px
@@ -325,7 +324,7 @@
     }
 
     .btn-add-address:hover {
-        background-color:rgb(130, 66, 225);
+        background-color:rgb(225, 216, );
         transform: scale(1.05);
     }
 
@@ -357,6 +356,22 @@
 
     .btn-delete:hover {
         background-color:rgb(225, 216, );
+        transform: scale(1.05);
+    }
+
+    .btn-submit {
+        background-color:rgb(130, 66, 225);
+        color:rgb(255, 255, 255);
+        border: none;
+        padding: 8px 16px;
+        border-radius: 12px;
+        font-weight: 500;
+        font-size: 16px
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-submit:hover {
+        background-color:rgb(130, 66, 225);
         transform: scale(1.05);
     }
     
