@@ -15,4 +15,9 @@ class Package extends Model
         'package_maxparticipants',
         'package_extra_fee_per_person',
     ];
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
 }

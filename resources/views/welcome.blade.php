@@ -11,7 +11,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJ3QFJhR6vHY9t9mZW0GdFT9zV8HqzS8IoFS4e3i6GpPms9PpPRhGvZkrmVn" crossorigin="anonymous">
     <!-- Styles -->
     <style>
         .carousel-inner .carousel-item img {

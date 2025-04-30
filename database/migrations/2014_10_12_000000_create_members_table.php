@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('member_gender')->nullable();
             $table->string('member_dob')->nullable();
             $table->string('member_tel')->nullable();
-            $table->string('member_nationality')->nullable();
             $table->string('member_image')->nullable();
             $table->timestamp('member_email_verified_at')->nullable();
             $table->string('member_password');

@@ -40,6 +40,7 @@ class ProfileController extends Controller
             'member_email' => 'required|email|max:255|unique:members,member_email,' . $Member->id,
             'member_tel' => 'required|regex:/^[0-9]{9,10}$/|unique:members,member_tel,' . $Member->id,
             'member_gender' => 'nullable|string',
+            'member_nationality' => 'nullable|string',
             'member_dob' => 'nullable|date',
             'member_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);

@@ -6,17 +6,50 @@
         <div class="card-header bg-primary text-white">
             <h4>{{ __('Select Package') }}</h4>
         </div>
+        @if ($errors->any())
+        <div class="alert alert-danger mt-3">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
         <div class="card-body">
             <form action="{{ route('admin.events.create.step1') }}" method="POST">
                 @csrf
-                <label for="package" class="form-label">{{ __('Package') }}</label>
-                <select name="package" id="package" class="form-select" required>
-                    <option value="" disabled selected>{{ __('Select a package') }}</option>
+                <div class="row">
                     @foreach ($packages as $package)
-                    <option value="{{ $package->id }}">{{ $package->package_name }} - ฿{{ number_format($package->package_price, 2) }}</option>
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-header bg-secondary text-white text-center">
+                                <h5 class="card-title">{{ $package->package_name }}</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>{{ __('Price:') }}</strong> ฿{{ number_format($package->package_price, 2) }}</p>
+                                <p>
+                                    <strong>{{ __('Max Participants:') }}</strong>
+                                    {{ $package->package_maxparticipants > 0 ? $package->package_maxparticipants : __('Unlimited') }}
+                                </p>
+                                <p>
+                                    <strong>{{ __('Extra Fee per Person:') }}</strong>
+                                    ฿{{ number_format($package->package_extra_fee_per_person, 2) }}
+                                </p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <label>
+                                    <input type="radio" name="package" value="{{ $package->id }}" required>
+                                    {{ __('Select this package') }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                     @endforeach
-                </select>
-                <button type="submit" class="btn btn-primary mt-3">{{ __('Next') }}</button>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary mt-3">{{ __('Next') }}</button>
+                </div>
             </form>
         </div>
     </div>

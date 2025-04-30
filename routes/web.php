@@ -101,9 +101,8 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::put('/organizer/events/{eventId}/sub-events/{subEventId}', [SubEventController::class, 'update'])->name('admin.events.subEvents.update');
     Route::delete('/organizer/events/{eventId}/sub-events/{subEventId}', [SubEventController::class, 'destroy'])->name('admin.events.subEvents.destroy');
 
-    Route::get('/admin/events/create-step1', [EventController::class, 'createStep1'])->name('admin.events.create.step1');
-    Route::post('/admin/events/create-step1', [EventController::class, 'storeStep1']);
-
-    Route::get('/admin/events/create-step2', [EventController::class, 'createStep2'])->name('admin.events.create.step2');
-    Route::post('/admin/events/create-step2', [EventController::class, 'storeStep2']);
+    Route::get('admin/events/create/step1', [EventController::class, 'createStep1'])->name('admin.events.create.step1');
+    Route::post('admin/events/create/step1', [EventController::class, 'storeStep1']);
+    Route::get('admin/events/create/step2', [EventController::class, 'createStep2'])->name('admin.events.create.step2');
+    Route::post('admin/events/create/step2', [EventController::class, 'storeStep2']);
 });
