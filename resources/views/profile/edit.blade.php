@@ -2,7 +2,7 @@
 
 @section('content')
     
-    <div style="background: linear-gradient(135deg, #3C1361, #7E2DDF); min-height: 100vh; padding: 2rem 0;">
+    <div style="background: #ffffff; min-height: 100vh; padding: 2rem 0;">
         <div class="d-flex">
             <!-- Sidebar -->
             <div class="sidebar" style="margin-left: 100px;">
@@ -381,32 +381,8 @@
                     background-color:rgb(130, 66, 225);
                     transform: scale(1.05);
                     }
+                </style>
 
-                    
-                    
-                </style>
-                <script>
-                    function toggleTheme() {
-                    const body = document.body;
-                    const isDark = body.classList.toggle('dark-theme');
-                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                    }
-                    
-                    document.addEventListener('DOMContentLoaded', () => {
-                    const savedTheme = localStorage.getItem('theme');
-                    if (savedTheme === 'dark') {
-                    document.body.classList.add('dark-theme');
-                    }
-                    });
-                </script>
-                <style>
-                    .dark-theme {
-                    background-color: #121212 !important;
-                    color: white;
-                    }
-                    .dark-theme .card, .dark-theme input, .dark-theme select, .dark-theme .form-control {
-                    background-color: #1e1e1e !important;
-                    color: white !important;
-                    }
-                </style>
+                
+                
                 
