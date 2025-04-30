@@ -34,8 +34,8 @@
                         <div class="buttons-container ">
                             <div class="d-flex ">
                                 <input type="file" id="member_image" name="member_image" accept="image/*" style="display: none;" onchange="previewImage(event)">
-                                <label for="member_image" class="btn btn-primary me-2">อัปโหลดรูปภาพ</label>
-                                <button type="button" class="btn btn-danger" onclick="submitRemoveImageForm()">ลบรูปภาพ</button>
+                                <label for="member_image" class="btn-picupload me-2">อัปโหลดรูปภาพ</label>
+                                <button type="button" class="btn-delete btn-danger" onclick="submitRemoveImageForm()">ลบรูปภาพ</button>
                             </div>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
 
                         <!--สัญชาติ -->
                         <div class="mb-3 w-50">
-                            <label for="member_nationality" class="form-label">สัญชาติ</lebel>
+                            <label for="member_nationality" class="form-label">สัญชาติ</label>
                             <select class="form-control" id="member_nationality" name="member_nationality">
                                 <option value="">-- กรุณาเลือกสัญชาติ --</option>
                                 <option value="Afghan" {{ old('member_nationality', $Member->member_nationality) == 'Afghan' ? 'selected' : '' }}>Afghan</option>
@@ -261,6 +261,8 @@
 </div>
 @endsection
 
+
+
 <script>
     function previewImage(event) {
         const reader = new FileReader();
@@ -324,6 +326,37 @@
 
     .btn-add-address:hover {
         background-color:rgb(130, 66, 225);
+        transform: scale(1.05);
+    }
+
+    .btn-picupload {
+        background-color:rgb(130, 66, 225);
+        color:rgb(255, 255, 255);
+        border: none;
+        padding: 8px 16px;
+        border-radius: 12px;
+        font-weight: 500;
+        font-size: 16px
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-picupload:hover {
+        background-color:rgb(130, 66, 225);
+        transform: scale(1.05);
+    }
+
+    .btn-delete {
+        background-color:rgb(225, 216, 238);
+        color:rgb(130, 66, 225);
+        border: none;
+        border-radius: 12px;
+        font-weight: 500;
+        font-size: 16px
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-delete:hover {
+        background-color:rgb(225, 216, );
         transform: scale(1.05);
     }
     
