@@ -15,7 +15,7 @@
                 <div class="card shadow-lg border-0">
                     <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
                         <h4 class="mb-0">{{ __('Members Management') }}</h4>
-                        <a href="{{ route('admin.users.create') }}" class="btn btn-light btn-sm">{{ __('Create New Member') }}</a>
+                        <a href="{{ route('admin.users.create') }}" class="btn btn-light btn-sm"><i class="bi bi-plus-circle"></i> {{ __('Create New Member') }}</a>
                     </div>
 
                     <div class="card-body">
@@ -44,11 +44,11 @@
                                     <td>{{ $member->member_email }}</td>
                                     <td>{{ $member->member_role }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('admin.users.edit', $member->id) }}" class="btn btn-warning btn-sm">{{ __('Edit') }}</a>
+                                        <a href="{{ route('admin.users.edit', $member->id) }}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i> {{ __('Edit') }}</a>
                                         <form action="{{ route('admin.users.destroy', $member->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this member?')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">{{ __('Delete') }}</button>
+                                            <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> {{ __('Delete') }}</button>
                                         </form>
                                     </td>
                                 </tr>

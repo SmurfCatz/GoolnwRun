@@ -25,6 +25,11 @@
                 <span class="ant-menu-title-content">Package Management</span>
             </a>
         </li>
+        <li class="ant-menu-item ant-menu-item-only-child {{ request()->routeIs('admin.events.index') ? 'active' : '' }}" role="menuitem">
+            <a href="{{ route('admin.events.index') }}" class="ant-menu-item-link">
+                <span class="ant-menu-title-content">Event Management</span>
+            </a>
+        </li>
         <li class="ant-menu-item ant-menu-item-only-child {{ request()->routeIs('admin.organizers.pending') ? 'active' : '' }}" role="menuitem">
             <a href="{{ route('admin.organizers.pending') }}" class="ant-menu-item-link">
                 <span class="ant-menu-title-content">Approve Organizers</span>

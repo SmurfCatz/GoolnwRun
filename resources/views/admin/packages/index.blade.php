@@ -66,7 +66,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-sm"
-                                                onclick="return confirm('{{ __('Are you sure you want to delete this package?') }}')">
+                                                onclick="return confirm('Are you sure you want to delete this package?')">
                                                 <i class="bi bi-trash"></i> {{ __('Delete') }}
                                             </button>
                                         </form>

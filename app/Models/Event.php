@@ -10,22 +10,16 @@ class Event extends Model
     use HasFactory;
 
     protected $fillable = [
-        'package_id',
-        'name',
+        'event_name',
         'event_date',
-        'category',
-        'location',
-        'registration_start',
-        'registration_end',
+        'event_category',
+        'registration_open_date',
+        'registration_close_date',
+        'event_status',
     ];
 
-    public function package()
+    public function subEvents()
     {
-        return $this->belongsTo(Package::class);
-    }
-
-    public function competitionTypes()
-    {
-        return $this->hasMany(CompetitionType::class);
+        return $this->hasMany(SubEvent::class, 'event_id');
     }
 }
