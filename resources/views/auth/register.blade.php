@@ -2,12 +2,12 @@
 
 @section('content')
 
-<div class="container d-flex shadow-lg my-3 max-w-sm mx-auto p-0" style="width: 1080px;">
+<div class="container d-flex shadow-lg my-3 max-w-sm mx-auto p-0" style="width: 1080px; border-radius: 20px;">
     <div class="row w-100 m-0">
         <!-- Left Side: Image -->
         <div class="col-12 col-md-6 d-flex justify-content-center align-items-center p-0 overflow-hidden">
             <img src="{{ asset('images/register.jpg') }}" alt="Register Illustration" class="img-fluid d-none d-md-block"
-                style="width: 540px; height: 640px;">
+                style="width: 540px; height: 100%; border-radius: 20px;">
         </div>
 
         <!-- Right Side: Form -->

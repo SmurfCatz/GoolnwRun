@@ -33,50 +33,46 @@ class OrganizerController extends Controller
         if ($organizer) {
             $organizer->is_approved = true;
             $organizer->save();
-    
+
             // รีเซ็ต session หลังการอนุมัติ
             session(['waiting_for_approval' => false]);
-    
+
             return redirect()->route('admin.organizers.index')->with('success', 'บัญชีผู้ใช้ได้รับการอนุมัติแล้ว');
         }
-    
+
         return redirect()->route('admin.organizers.index')->with('error', 'ไม่พบผู้ใช้นี้');
     }
-    
+
 
     // ใน Controller ที่รับคำขอ check-approval
     public function checkApproval(Request $request)
-{
-    \Log::info('Session organizer_email: ' . session('organizer_email'));
-    \Log::info('Authenticated user: ' . auth('organizer')->user());
+    {
 
-    $organizerEmail = session('organizer_email');
 
-    if (!$organizerEmail) {
-        \Log::error('Session organizer_email is missing or expired.');
+        $organizerEmail = session('organizer_email');
+
+        if (!$organizerEmail) {
+            return response()->json([
+                'approved' => false,
+                'message' => 'Session is missing or expired.',
+            ], 401); // Unauthorized
+        }
+
+        $organizer = Organizer::where('organizer_email', $organizerEmail)->first();
+
+        if (!$organizer) {
+            return response()->json([
+                'approved' => false,
+                'message' => 'Organizer not found.',
+            ], 404); // Not Found
+        }
+
+
         return response()->json([
-            'approved' => false,
-            'message' => 'Session is missing or expired.',
-        ], 401); // Unauthorized
+            'approved' => $organizer->is_approved,
+            'message' => $organizer->is_approved ? 'Approved' : 'Pending approval',
+        ]);
     }
-
-    $organizer = Organizer::where('organizer_email', $organizerEmail)->first();
-
-    if (!$organizer) {
-        \Log::error('Organizer not found for email: ' . $organizerEmail);
-        return response()->json([
-            'approved' => false,
-            'message' => 'Organizer not found.',
-        ], 404); // Not Found
-    }
-
-    \Log::info('Organizer approval status: ' . ($organizer->is_approved ? 'Approved' : 'Pending'));
-
-    return response()->json([
-        'approved' => $organizer->is_approved,
-        'message' => $organizer->is_approved ? 'Approved' : 'Pending approval',
-    ]);
-}
     // ฟังก์ชันแสดงฟอร์มเพิ่ม organizer ใหม่
     public function create()
     {

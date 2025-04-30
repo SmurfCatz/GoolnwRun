@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container d-flex shadow-lg my-3 max-w-sm mx-auto p-0" style="width: 1080px;">
+<div class="container d-flex shadow-lg my-3 max-w-sm mx-auto p-0" style="width: 1080px; border-radius: 20px;">
     <div class=" row w-100 m-0">
         <!-- Left Side: Form -->
         <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center p-5 m-0">
@@ -66,9 +66,9 @@
             </div>
         </div>
         <!-- Right Side: Image -->
-        <div class="col-12 col-md-6 d-flex justify-content-center align-items-center p-0 overflow-hidden">
+        <div class="col-12 col-md-6 d-flex justify-content-center align-items-center p-0 overflow-hidden ">
             <img src=" {{ asset('images\login organizer.jpg') }}" alt="Login Illustration" class="img-fluid d-none d-md-block"
-                style="width: 540px; height: 640px;">
+                style="width: 540px; height: 640px; border-radius: 0 20px 20px 0; object-fit: cover;">
         </div>
     </div>
 </div>

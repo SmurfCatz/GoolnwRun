@@ -2,16 +2,16 @@
 
 @section('content')
 
-<div class="container d-flex shadow-lg my-3 max-w-sm mx-auto p-0" style="width: 1080px;">
+<div class="container d-flex shadow-lg my-3 max-w-sm mx-auto p-0" style="width: 1080px; border-radius: 20px;">
     <div class=" row w-100 m-0">
         <!-- Left Side: Form -->
         <div class="col-12 col-md-6 d-flex justify-content-center align-items-center p-0 overflow-hidden">
             <img src=" {{ asset('images\register organizer.jpg') }}" alt="Login Illustration" class="img-fluid d-none d-md-block"
-                style="width: 540px; height: 100%;">
+                style="width: 540px; height: 100%; border-radius: 20px 0 0 20px; object-fit: cover;">
         </div>
 
         <!-- Right Side: Image -->
-        <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center p-5 m-0">
+        <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center pq-5 m-0">
             <div class="w-100 px-3 px-md-5">
                 <h1 class="fw-bold mb-2 text-center text-md-start">REGISTER ORGANIZER</h1>
                 <form method="POST" action="{{ route('organizer.register') }}">
@@ -97,6 +97,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.6/dist/inputmask.min.js"></script>
 <script>
