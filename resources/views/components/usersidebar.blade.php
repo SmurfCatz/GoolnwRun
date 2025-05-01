@@ -9,23 +9,7 @@
     </ul>
 </div>
 
-<div class="dropdown">
-    <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        🌐 {{ strtoupper(app()->getLocale()) }}
-    </button>
-    <ul class="dropdown-menu">
-        <li>
-            <a class="dropdown-item" href="{{ route('change.language', 'en') }}">
-                <img src="{{ asset('images/flags/us.png') }}" width="20"> English
-            </a>
-        </li>
-        <li>
-            <a class="dropdown-item" href="{{ route('change.language', 'th') }}">
-                <img src="{{ asset('images/flags/th.png') }}" width="20"> ภาษาไทย
-            </a>
-        </li>
-    </ul>
-</div>
+
 
 <script>
     function toggleTheme() {

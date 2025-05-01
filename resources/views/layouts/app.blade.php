@@ -98,9 +98,10 @@
                         </li> -->
                         @endauth
                     </ul>
+                    
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav ms-auto ">
                         @if (Auth::guard('web')->check())
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle p-2" href="#" role="button"
@@ -153,6 +154,24 @@
                         </li>
                         @endif
                         @endif
+                    </ul>
+                    <!-- Navbar Right Side -->
+                    <ul class="navbar-nav ">
+                        {{-- ปุ่มสลับภาษา --}}
+                        <li class="nav-item dropdown">
+                            <a id="langDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                🌐 {{ strtoupper(app()->getLocale()) }}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+                                <a class="dropdown-item" href="{{ route('change.language', 'en') }}">
+                                    🇺🇸 English
+                                </a>
+                                <a class="dropdown-item" href="{{ route('change.language', 'th') }}">
+                                    🇹🇭 ภาษาไทย
+                                </a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>

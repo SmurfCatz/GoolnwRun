@@ -7,7 +7,7 @@
             <!-- Sidebar -->
             <div class="sidebar" style="margin-left: 100px;">
                 @include('components.usersidebar')
-                </div>
+            </div>
                 
                 <!-- Main Content -->
                 <div class="container mt-5">
