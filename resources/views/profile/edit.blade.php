@@ -14,7 +14,7 @@
                     <div class="row justify-content-center">
                         <div class="col-md-8">
                             <div class="card p-4 shadow-lg" style="min-height: 700px;">
-                                <h1 class="text-center mb-4">บัญชีผู้ใช้</h1>
+                                <h1 class="text-center mb-4">{{ __('messages.profile') }}</h1>
                                 
                                 @if (session('success'))
                                     <div class="alert alert-success">
@@ -41,8 +41,8 @@
                                         <div class="buttons-container ">
                                             <div class="d-flex ">
                                                 <input type="file" id="member_image" name="member_image" accept="image/*" style="display: none;" onchange="previewImage(event)">
-                                                <label for="member_image" class="btn-picupload me-2">อัปโหลดรูปภาพ</label>
-                                                <button type="button" class="btn-delete btn-danger" onclick="submitRemoveImageForm()">ลบรูปภาพ</button>
+                                                <label for="member_image" class="btn-picupload me-2">{{ __('messages.upload picture') }}</label>
+                                                <button type="button" class="btn-delete btn-danger" onclick="submitRemoveImageForm()">{{ __('messages.delete picture') }}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -50,7 +50,7 @@
                                     <div class="row">
                                         <!-- ชื่อผู้ใช้ -->
                                         <div class="mb-3 w-50">
-                                            <label for="member_name" class="form-label">ชื่อผู้ใช้</label>
+                                            <label for="member_name" class="form-label">{{ __('messages.user name') }}</label>
                                             <input type="text" class="form-control" id="member_name" name="member_name" value="{{ old('member_name', $Member->member_name) }}" required>
                                             @if ($errors->has('member_name'))
                                                 <div class="text-danger">{{ $errors->first('member_name') }}</div>
@@ -59,7 +59,7 @@
                                             
                                             <!-- อีเมล -->
                                             <div class="mb-3 w-50">
-                                                <label for="member_email" class="form-label">อีเมล</label>
+                                                <label for="member_email" class="form-label">{{ __('messages.email') }}</label>
                                                 <input type="email" class="form-control" id="member_email" name="member_email" value="{{ old('member_email', $Member->member_email) }}" required>
                                                 @if ($errors->has('member_email'))
                                                     <div class="text-danger">{{ $errors->first('member_email') }}</div>
@@ -68,13 +68,13 @@
                                                 
                                                 <!-- เบอร์โทรศัพท์ -->
                                                 <div class="mb-3 w-50">
-                                                    <label for="member_tel" class="form-label">เบอร์โทรศัพท์</label>
+                                                    <label for="member_tel" class="form-label">{{ __('messages.telephone') }}</label>
                                                     <input type="text" class="form-control" id="member_tel" name="member_tel" value="{{ old('member_tel', $Member->member_tel) }}">
                                                 </div>
                                                 
                                                 <!-- เพศ -->
                                                 <div class="mb-3 w-50">
-                                                    <label for="member_gender" class="form-label">เพศ (ตามบัตรประชาชน)</label>
+                                                    <label for="member_gender" class="form-label">{{ __('messages.gender') }}</label>
                                                     <select class="form-control" id="member_gender" name="member_gender">
                                                     <option value="male" {{ $Member->member_gender === 'male' ? 'selected' : '' }}>ชาย</option>
                                                     <option value="female" {{ $Member->member_gender === 'female' ? 'selected' : '' }}>หญิง</option>
@@ -83,13 +83,13 @@
                                             
                                             <!-- วันเกิด -->
                                             <div class="mb-3 w-50">
-                                                <label for="member_dob" class="form-label">วันเกิด</label>
+                                                <label for="member_dob" class="form-label">{{ __('messages.birthdate') }}</label>
                                                 <input type="date" class="form-control" id="member_dob" name="member_dob" value="{{ old('member_dob', $Member->member_dob) }}">
                                             </div>
                                             
                                             <!--สัญชาติ -->
                                             <div class="mb-3 w-50">
-                                                <label for="member_nationality" class="form-label">สัญชาติ</label>
+                                                <label for="member_nationality" class="form-label">{{ __('messages.nationality') }}</label>
                                                 <select class="form-control" id="member_nationality" name="member_nationality">
                                                 <option value="">-- กรุณาเลือกสัญชาติ --</option>
                                                 <option value="Afghan" {{ old('member_nationality', $Member->member_nationality) == 'Afghan' ? 'selected' : '' }}>Afghan</option>

@@ -13,6 +13,9 @@ use App\Http\Controllers\Organizer\OrganizerProfileController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\SubEventController;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 
 Auth::routes();
 
@@ -106,3 +109,10 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::get('admin/events/create/step2', [EventController::class, 'createStep2'])->name('admin.events.create.step2');
     Route::post('admin/events/create/step2', [EventController::class, 'storeStep2']);
 });
+
+Route::get('/change-language/{lang}', function ($lang, Request $request) {
+    Session::put('locale', $lang); // บันทึกภาษาไว้ใน session
+    App::setLocale($lang);        // ตั้งค่าภาษาใหม่ใน runtime
+
+    return redirect()->back();    // กลับไปหน้าที่แล้ว
+})->name('change.language');
