@@ -59,11 +59,16 @@
         .navbar-toggler-icon:hover {
             transform: rotate(90deg);
         }
+
+        .card-header {
+            background-color: #6f42c1;
+        }
     </style>
 </head>
 
 <body>
     <div id="app">
+        @if (!View::hasSection('hide-navbar'))
         <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -176,6 +181,7 @@
                 </div>
             </div>
         </nav>
+        @endif
 
         <main class="py-1">
             @yield('content')

@@ -1,8 +1,18 @@
-<div class="card shadow-lg border-0" id="sidebar">
-    <div class="sidebar-heading d-flex justify-content-center text-white">
-        Menu
+<div class="sidebar shadow-lg m-0 border-0" style="position: fixed; top: 0; left: 0; height: 100vh; width: 300px;">
+    @auth
+    <div class="sidebar-header text-center py-3">
+        <img src="{{ auth()->user()->member_image ? asset('storage/' . auth()->user()->member_image) : asset('images/default-avatar.png') }}"
+            alt="Profile Picture"
+            class="rounded-circle"
+            width="80"
+            height="80"
+            style="object-fit: cover;">
+        <div class="mt-2 fw-bold">{{ auth()->user()->member_name }}</div>
+        <div class="text-muted" style="font-size: 14px;">{{ auth()->user()->member_email }}</div>
+        <div class="text-muted" style="font-size: 14px;">{{ auth()->user()->member_role }}</div>
     </div>
-    <ul class="ant-menu ant-menu-light ant-menu-root " role="menu" style="width: 250px;">
+    @endauth
+    <ul class="ant-menu ant-menu-light ant-menu-root " role="menu" style="width: 100%;">
         @auth
         @if (auth()->user()->member_role === 'admin')
         <li class="ant-menu-item ant-menu-item-only-child {{ request()->routeIs('admin.home') ? 'active' : '' }}" role="menuitem">
@@ -48,6 +58,15 @@
         </li> -->
         @endif
         @endauth
+
+        @auth
+        <form method="POST" action="{{ route('logout') }}" class="logout-form">
+            @csrf
+            <button type="submit" class="btn w-100">
+                Logout
+            </button>
+        </form>
+        @endauth
     </ul>
 </div>
 
@@ -59,15 +78,10 @@
         margin-top: 50px;
     }
 
-    .sidebar .sidebar-heading {
+    .sidebar .sidebar-header {
+        padding: 20px;
         text-align: center;
         font-size: 20px;
-        font-weight: bold;
-        text-transform: uppercase;
-        padding: 10px 0;
-        color: white;
-        border-radius: 6px 6px 0 0;
-        background-color: #6f42c1;
     }
 
     .sidebar ul {
@@ -99,5 +113,27 @@
         color: #6f42c1;
         font-weight: bold;
         border-left: 5px solid #6f42c1;
+    }
+
+    /* Logout button fix */
+    .logout-form {
+        position: absolute;
+        bottom: 20px;
+        left: 10px;
+        right: 10px;
+    }
+
+    .logout-form button {
+        font-weight: bold;
+        border-radius: 6px;
+        background-color: #6f42c1;
+        border: 0;
+        color: white;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .logout-form button:hover {
+        background-color: rgb(78, 47, 136);
+        color: white;
     }
 </style>
