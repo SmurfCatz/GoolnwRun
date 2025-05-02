@@ -10,5 +10,22 @@ return [
     'telephone' => 'Telephone',
     'gender' => 'Gender',
     'birthdate' => 'BirthDate',
-    'nationality' => 'Nationality'
+    'nationality' => 'Nationality',
+    'change theme' => 'Change Theme',
+    'deliver address' => 'Deliver Address',
+    'add address' => ' + Add a new delivery address',
+    'save' => 'Save',
+    'setting' => 'Setting',
+    'male' => 'Male',
+    'female' => 'Female',
+    'house number' => 'House Number',
+    'village number' => 'Village Number',
+    'alley lane' => 'Alley/Lane',
+    'road street' => 'Road/Street',
+    'sub-district/ward' => 'Sub-district/ward',
+    'district' => 'District',
+    'province' => 'Province',
+    'postal code' => "Poster Code"
+
+
 ];

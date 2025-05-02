@@ -10,5 +10,21 @@ return [
     'telephone' => 'เบอร์โทรศัพท์',
     'gender' => 'เพศ (ตามบัตรประชาชน)',
     'birthdate' => 'วันเกิด',
-    'nationality' => 'สัญชาติ'
+    'nationality' => 'สัญชาติ',
+    'change theme' => 'เปลี่ยนธีม',
+    'deliver address' => 'ที่อยู่การจัดส่ง',
+    'add address' => ' + เพิ่มที่อยู่ใหม่',
+    'save' => 'บันทึก',
+    'setting' => 'ตั้งค่า',
+    'male' => 'ชาย',
+    'female' => 'หญิง',
+    'house number' => 'บ้านเลขที่',
+    'village number' => 'หมู่ที่',
+    'alley lane' => 'ตรอกซอย',
+    'road street' => 'ถนน',
+    'sub-district/ward' => 'ตำบล/เเขวง',
+    'district' => 'อำเภอ/เขต',
+    'province' => 'จังหวัด',
+    'postal code' => "รหัสไปรษณีย์"
+    
 ];

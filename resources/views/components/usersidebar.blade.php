@@ -1,10 +1,10 @@
 <div class="card border-0 shadow-lg" id="sidebar" style="width: 250px;">
     <div class="card-header text-white text-center">
-        ตั้งค่า
+    {{ __('messages.setting') }}
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item text-center">
-            <button class="btn-theme btn-sm " onclick="toggleTheme()">เปลี่ยนธีม</button>
+            <button class="btn-theme btn-sm " onclick="toggleTheme()">{{ __('messages.change theme') }}</button>
         </li>
     </ul>
 </div>
