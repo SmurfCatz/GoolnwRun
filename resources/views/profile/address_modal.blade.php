@@ -3,49 +3,49 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addressModalLabel">ที่อยู่ในการจัดส่ง</h5>
+                <h5 class="modal-title" id="addressModalLabel">{{ __('messages.deliver address') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form method="POST" action="{{ route('address.store') }}">
                     @csrf
                     <div class="mb-3">
-                        <label for="address_house_number" class="form-label">บ้านเลขที่</label>
+                        <label for="address_house_number" class="form-label">{{ __('messages.house number') }}</label>
                         <input type="text" class="form-control" id="address_house_number" name="address_house_number" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="address_village" class="form-label">หมู่ที่</label>
+                        <label for="address_village" class="form-label">{{ __('messages.village number') }}</label>
                         <input type="text" class="form-control" id="address_village" name="address_village">
                     </div>
 
                     <div class="mb-3">
-                        <label for="address_alley" class="form-label">ตรอก/ซอย</label>
+                        <label for="address_alley" class="form-label">{{ __('messages.alley lane') }}</label>
                         <input type="text" class="form-control" id="address_alley" name="address_alley">
                     </div>
 
                     <div class="mb-3">
-                        <label for="address_road" class="form-label">ถนน</label>
+                        <label for="address_road" class="form-label">{{ __('messages.road') }}</label>
                         <input type="text" class="form-control" id="address_road" name="address_road">
                     </div>
 
                     <div class="mb-3">
-                        <label for="address_subdistrict" class="form-label">ตำบล/แขวง</label>
+                        <label for="address_subdistrict" class="form-label">{{ __('messages.sub-district/ward') }}</label>
                         <input type="text" class="form-control" id="address_subdistrict" name="address_subdistrict" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="address_district" class="form-label">อำเภอ/เขต</label>
+                        <label for="address_district" class="form-label">{{ __('messages.district') }}</label>
                         <input type="text" class="form-control" id="address_district" name="address_district" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="address_province" class="form-label">จังหวัด</label>
+                        <label for="address_province" class="form-label">{{ __('messages.province') }}</label>
                         <input type="text" class="form-control" id="address_province" name="address_province" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="address_postal_code" class="form-label">รหัสไปรษณีย์</label>
+                        <label for="address_postal_code" class="form-label">{{ __('messages.postal code') }}</label>
                         <input type="text" class="form-control" id="address_postal_code" name="address_postal_code" required>
                     </div>
 
