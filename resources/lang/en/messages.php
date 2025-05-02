@@ -28,7 +28,8 @@ return [
     'district' => 'District',
     'province' => 'Province',
     'postal code' => 'Poster Code',
-    'edit address' => 'Edit Address'
+    'edit address' => 'Edit Address',
+    'select nationality' => '--Please select nationality--'
 
 
 ];

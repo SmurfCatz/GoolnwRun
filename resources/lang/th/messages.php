@@ -28,7 +28,8 @@ return [
     'postal code' => 'รหัสไปรษณีย์',
     'delete' => 'ลบ',
     'edit' => 'เเก้ไข',
-    'edit address' => 'เเก้ไขที่อยู่'
+    'edit address' => 'เเก้ไขที่อยู่',
+    'select nationality' => '-- กรุณาเลือกสัญชาติ --'
 
     
 ];

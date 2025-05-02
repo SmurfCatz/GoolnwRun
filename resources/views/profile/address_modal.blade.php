@@ -25,7 +25,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="address_road" class="form-label">{{ __('messages.road') }}</label>
+                        <label for="address_road" class="form-label">{{ __('messages.road street') }}</label>
                         <input type="text" class="form-control" id="address_road" name="address_road">
                     </div>
 

@@ -90,7 +90,7 @@
                             <div class="mb-3 w-50">
                                 <label for="member_nationality" class="form-label">{{ __('messages.nationality') }}</label>
                                 <select class="form-control" id="member_nationality" name="member_nationality">
-                                    <option value="">-- กรุณาเลือกสัญชาติ --</option>
+                                    <option value="">{{ __('messages.select nationality') }}</option>
                                     <option value="Afghan" {{ old('member_nationality', $Member->member_nationality) == 'Afghan' ? 'selected' : '' }}>Afghan</option>
                                     <option value="Albanian" {{ old('member_nationality', $Member->member_nationality) == 'Albanian' ? 'selected' : '' }}>Albanian</option>
                                     <option value="Algerian" {{ old('member_nationality', $Member->member_nationality) == 'Algerian' ? 'selected' : '' }}>Algerian</option>
