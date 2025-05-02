@@ -35,7 +35,7 @@
         }
 
         .navbar-light .navbar-nav .nav-link:hover {
-            color: #007bff;
+            color: #9400D3;
             transition: color 0.3s ease;
         }
 
@@ -64,7 +64,7 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top" style="">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="{{ asset('images/logo2.png') }}"
@@ -98,7 +98,7 @@
                         </li> -->
                         @endauth
                     </ul>
-                    
+
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto ">
@@ -183,5 +183,31 @@
     </div>
 
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const form = this.closest('.delete-form');
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "This action cannot be undone.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Yes, delete it!',
+                    reverseButtons: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
 
 </html>

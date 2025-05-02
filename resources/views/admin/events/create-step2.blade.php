@@ -111,12 +111,12 @@
                     <div class="col-md-3">
                         <label class="form-label">{{ __('Distance (km)') }}</label>
                         <input type="number" name="sub_events[${subEventIndex}][sub_event_distance]" class="form-control" 
-                               placeholder="{{ __('Enter distance') }}" step="0.1" required>
+                               placeholder="{{ __('Enter distance') }}" step="0.1" required min="0">
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">{{ __('Registration Fee (฿)') }}</label>
                         <input type="number" name="sub_events[${subEventIndex}][registration_fee]" class="form-control" 
-                               placeholder="{{ __('Enter fee') }}" step="0.01" required>
+                               placeholder="{{ __('Enter fee') }}" step="1" required min="0">
                     </div>
                     <div class="col-md-2">
                         <button type="button" class="btn btn-danger btn-sm remove-sub-event">{{ __('Remove') }}</button>

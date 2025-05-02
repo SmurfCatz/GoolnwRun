@@ -13,16 +13,16 @@
 
 <script>
     function toggleTheme() {
-    const body = document.body;
-    const isDark = body.classList.toggle('dark-theme');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        const body = document.body;
+        const isDark = body.classList.toggle('dark-theme');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
     }
-                    
+
     document.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-    document.body.classList.add('dark-theme');
-    }
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
     });
 </script>
 
@@ -34,34 +34,37 @@
     }
 
     .btn-theme {
-        background-color:rgb(130, 66, 225);
-        color:rgb(255, 255, 255);
+        background-color: #6f42c1;
+        color: rgb(255, 255, 255);
         border: none;
         padding: 8px 30px;
         border-radius: 12px;
         font-weight: 500;
-        font-size: 16px
+        font-size: 16px;
         transition: background-color 0.3s ease;
     }
 
     .btn-theme:hover {
-        background-color:rgb(130, 66, 225);
+        background-color: #6f42c1;
         transform: scale(1.05);
     }
 
     .card-header {
-        background-color:rgb(130, 66, 225);
+        background-color: #6f42c1;
         font-weight: 500;
         font-size: 30px
     }
 
     .dark-theme {
-        background-color:rgb(130, 66, 225) !important;
+        background-color: rgb(0, 0, 0) !important;
         color: white;
     }
 
-    .dark-theme .card, .dark-theme input, .dark-theme select, .dark-theme .form-control {
-        background-color:rgb(174, 32, 157) !important;
+    .dark-theme .card,
+    .dark-theme input,
+    .dark-theme select,
+    .dark-theme .form-control {
+        background: rgb(0, 0, 0) !important;
         color: white !important;
     }
 </style>

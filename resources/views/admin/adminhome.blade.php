@@ -3,16 +3,16 @@
 @section('content')
 <div class="d-flex">
     <!-- Sidebar -->
-    <div class="sidebar" id="sidebar-wrapper">
+    <div class="sidebar mt-4" id="sidebar-wrapper">
         @include('components.sidebar')
     </div>
 
     <!-- Main Content -->
-    <div class="container mt-5">
-        <div class="row justify-content-start mx-5">
-            <div class="col-md-10">
+    <div class="container mt-4">
+        <div class="row justify-content-start mx-1">
+            <div class="col-md-11">
                 <div class="card shadow-lg border-0 ">
-                    <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
+                    <div class="card-header d-flex justify-content-between align-items-center text-white">
                         <h4 class=" mb-0 ">{{ __('Admin Dashboard') }}</h4>
                     </div>
                     <div class="card-body text-center">
@@ -28,4 +28,10 @@
         </div>
     </div>
 </div>
+
+<style>
+    .card-header {
+        background-color: #6f42c1;
+    }
+</style>
 @endsection

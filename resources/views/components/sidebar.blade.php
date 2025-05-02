@@ -1,5 +1,5 @@
-<div class="card shadow-lg border-0 " id="sidebar" style="width: 250px;">
-    <div class="sidebar-heading d-flex justify-content-center bg-primary text-white">
+<div class="card shadow-lg border-0" id="sidebar">
+    <div class="sidebar-heading d-flex justify-content-center text-white">
         Menu
     </div>
     <ul class="ant-menu ant-menu-light ant-menu-root " role="menu" style="width: 250px;">
@@ -67,6 +67,7 @@
         padding: 10px 0;
         color: white;
         border-radius: 6px 6px 0 0;
+        background-color: #6f42c1;
     }
 
     .sidebar ul {
@@ -90,13 +91,13 @@
     }
 
     .sidebar ul li a:hover {
-        color: #007bff;
+        color: #6f42c1;
     }
 
     .sidebar ul li.active a {
         background-color: rgba(231, 233, 235, 0.44);
-        color: #007bff;
+        color: #6f42c1;
         font-weight: bold;
-        border-left: 5px solid #007bff;
+        border-left: 5px solid #6f42c1;
     }
 </style>

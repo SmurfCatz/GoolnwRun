@@ -4,16 +4,16 @@
 
 <div class="d-flex">
     <!-- Sidebar -->
-    <div class="sidebar" id="sidebar-wrapper">
+    <div class="sidebar mt-4 " id="sidebar-wrapper">
         @include('components.sidebar')
     </div>
 
     <!-- Main Content -->
-    <div class="container mt-5">
-        <div class="row justify-content-start mx-5">
-            <div class="col-md-10">
+    <div class="container mt-4">
+        <div class="row justify-content-start mx-1">
+            <div class="col-md-11">
                 <div class="card shadow-lg border-0">
-                    <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
+                    <div class="card-header d-flex justify-content-between align-items-center text-white">
                         <h4 class="mb-0">{{ __('Event Management') }}</h4>
                         <a href="{{ route('admin.events.create.step1') }}" class="btn btn-light btn-sm">
                             <i class="bi bi-plus-circle"></i> {{ __('Create New Event') }}
@@ -53,10 +53,11 @@
                                         <a href="{{ route('admin.events.edit', $event->id) }}" class="btn btn-warning btn-sm">
                                             <i class="bi bi-pencil-square"></i> {{ __('Edit') }}
                                         </a>
-                                        <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this event?')">
+                                        <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST"
+                                            class="d-inline delete-form">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">
+                                            <button type="button" class="btn btn-danger btn-sm delete-btn">
                                                 <i class="bi bi-trash"></i> {{ __('Delete') }}
                                             </button>
                                         </form>
@@ -72,5 +73,9 @@
         </div>
     </div>
 </div>
-
+<style>
+    .card-header {
+        background-color: #6f42c1;
+    }
+</style>
 @endsection

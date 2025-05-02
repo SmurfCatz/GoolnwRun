@@ -3,16 +3,16 @@
 @section('content')
 <div class="d-flex">
     <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
+    <div class="sidebar mt-4" id="sidebar">
         @include('components.sidebar')
     </div>
 
     <!-- Main Content -->
-    <div class="container mt-5">
-        <div class="row justify-content-start mx-5">
-            <div class="col-md-10">
+    <div class="container mt-4">
+        <div class="row justify-content-start mx-1">
+            <div class="col-md-11">
                 <div class="card shadow-lg border-0">
-                    <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
+                    <div class="card-header d-flex justify-content-between align-items-center text-white">
                         <h4 class="mb-0">{{ __('Package Management') }}</h4>
                         <a href="{{ route('admin.packages.create') }}"
                             class="btn btn-light btn-sm">
@@ -60,13 +60,11 @@
                                             class="btn btn-warning btn-sm">
                                             <i class="bi bi-pencil-square"></i> {{ __('Edit') }}
                                         </a>
-                                        <form method="POST"
-                                            action="{{ route('admin.packages.destroy', $package->id) }}"
-                                            style="display: inline;">
+                                        <form action="{{ route('admin.packages.destroy', $package->id) }}" method="POST"
+                                            class="d-inline delete-form">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Are you sure you want to delete this package?')">
+                                            <button type="button" class="btn btn-danger btn-sm delete-btn">
                                                 <i class="bi bi-trash"></i> {{ __('Delete') }}
                                             </button>
                                         </form>
@@ -82,4 +80,9 @@
         </div>
     </div>
 </div>
+<style>
+    .card-header {
+        background-color: #6f42c1;
+    }
+</style>
 @endsection
