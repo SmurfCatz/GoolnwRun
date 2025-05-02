@@ -50,10 +50,30 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">{{ __('messages.save') }}</button>
+                        <button type="submit" class="btn-saveaddress">{{ __('messages.save') }}</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .btn-saveaddress {
+        background-color: rgb(130, 66, 225);
+        color: rgb(255, 255, 255);
+        border: none;
+        padding: 8px 16px;
+        border-radius: 12px;
+        font-weight: 500;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-saveaddress:hover{
+        background-color: rgb(130, 66, 225);
+        transform: scale(1.05);
+    }
+
+</style>
+

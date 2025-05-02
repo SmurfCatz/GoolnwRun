@@ -25,6 +25,10 @@ return [
     'sub-district/ward' => 'ตำบล/เเขวง',
     'district' => 'อำเภอ/เขต',
     'province' => 'จังหวัด',
-    'postal code' => "รหัสไปรษณีย์"
+    'postal code' => 'รหัสไปรษณีย์',
+    'delete' => 'ลบ',
+    'edit' => 'เเก้ไข',
+    'edit address' => 'เเก้ไขที่อยู่'
+
     
 ];

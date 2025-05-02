@@ -5,6 +5,8 @@ return [
     'language' => 'Language',
     'upload picture' => 'Upload Picture',
     'delete picture' => 'Delete Picture',
+    'delete' => 'Delete',
+    'edit' => 'Edit',
     'user name' => 'User Name',
     'email' => 'Email',
     'telephone' => 'Telephone',
@@ -25,7 +27,8 @@ return [
     'sub-district/ward' => 'Sub-district/ward',
     'district' => 'District',
     'province' => 'Province',
-    'postal code' => "Poster Code"
+    'postal code' => 'Poster Code',
+    'edit address' => 'Edit Address'
 
 
 ];

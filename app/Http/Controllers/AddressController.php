@@ -81,7 +81,7 @@ class AddressController extends Controller
     }
 
     // ลบที่อยู่
-    public function deleteAddress($id)
+    public function destroy($id)
 {
     $address = Address::findOrFail($id);
     $address->delete();

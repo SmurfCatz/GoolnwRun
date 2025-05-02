@@ -32,7 +32,7 @@
                                     <img id="profile_picture_preview"
                                         src="{{ $Member->member_image ? asset('storage/' . $Member->member_image) : asset('images/default-avatar.png') }}"
                                         alt="Profile Picture" class="profile-picture" width="100" height="100"
-                                        style="border-radius: 50%; object-fit: cover;">
+                                        style="border-radius: 50%; object-fit: cover;"> 
                                 </div>
                             </div>
 
@@ -178,18 +178,18 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="address-summary">
-                                        <strong>บ้านเลขที่:</strong> {{ $address->address_house_number ?? 'ไม่มีข้อมูล' }}<br>
-                                        <strong>ตำบล/แขวง:</strong> {{ $address->address_subdistrict ?? 'ไม่มีข้อมูล' }}<br>
-                                        <strong>อำเภอ/เขต:</strong> {{ $address->address_district ?? 'ไม่มีข้อมูล' }}<br>
-                                        <strong>จังหวัด:</strong> {{ $address->address_province ?? 'ไม่มีข้อมูล' }}<br>
-                                        <strong>รหัสไปรษณีย์:</strong> {{ $address->address_postal_code ?? 'ไม่มีข้อมูล' }}
+                                        <strong>{{ __('messages.house number') }}:</strong> {{ $address->address_house_number ?? 'ไม่มีข้อมูล' }}<br>
+                                        <strong>{{ __('messages.sub-district/ward') }}:</strong> {{ $address->address_subdistrict ?? 'ไม่มีข้อมูล' }}<br>
+                                        <strong>{{ __('messages.district') }}</strong> {{ $address->address_district ?? 'ไม่มีข้อมูล' }}<br>
+                                        <strong>{{ __('messages.province') }}</strong> {{ $address->address_province ?? 'ไม่มีข้อมูล' }}<br>
+                                        <strong>{{ __('messages.postal code') }}</strong> {{ $address->address_postal_code ?? 'ไม่มีข้อมูล' }}
                                     </div>
                                     <div class="address-actions">
-                                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editAddressModal{{ $address->id }}">แก้ไข</button>
+                                        <button type="button" class="btn-editaddress  btn-sm" data-bs-toggle="modal" data-bs-target="#editAddressModal{{ $address->id }}">{{ __('messages.edit') }}</button>
                                         <form action="{{ route('address.delete', $address->id) }}" method="POST" class="d-inline-block">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('คุณต้องการลบที่อยู่นี้หรือไม่?')">ลบ</button>
+                                            <button type="submit" class="btn-deleteaddress btn-sm" onclick="return confirm('คุณต้องการลบที่อยู่นี้หรือไม่?')">{{ __('messages.delete') }}</button>
                                         </form>
                                     </div>
                                 </div>
@@ -201,7 +201,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="editAddressModalLabel{{ $address->id }}">แก้ไขที่อยู่</h5>
+                                        <h5 class="modal-title" id="editAddressModalLabel{{ $address->id }}">{{ __('messages.edit address') }}</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -209,39 +209,39 @@
                                             @csrf
                                             @method('PUT')
                                             <div class="mb-3">
-                                                <label for="address_house_number" class="form-label">บ้านเลขที่</label>
+                                                <label for="address_house_number" class="form-label">{{ __('messages.house number') }}</label>
                                                 <input type="text" class="form-control" id="address_house_number" name="address_house_number" value="{{ $address->address_house_number }}" required>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="address_village" class="form-label">หมู่ที่</label>
+                                                <label for="address_village" class="form-label">{{ __('messages.village number') }}</label>
                                                 <input type="text" class="form-control" id="address_village" name="address_village" value="{{ $address->address_village }}">
                                             </div>
                                             <div class="mb-3">
-                                                <label for="address_alley" class="form-label">ตรอก/ซอย</label>
+                                                <label for="address_alley" class="form-label">{{ __('messages.alley lane') }}</label>
                                                 <input type="text" class="form-control" id="address_alley" name="address_alley" value="{{ $address->address_alley }}">
                                             </div>
                                             <div class="mb-3">
-                                                <label for="address_road" class="form-label">ถนน</label>
+                                                <label for="address_road" class="form-label">{{ __('messages.road street') }}</label>
                                                 <input type="text" class="form-control" id="address_road" name="address_road" value="{{ $address->address_road }}">
                                             </div>
                                             <div class="mb-3">
-                                                <label for="address_subdistrict" class="form-label">ตำบล/แขวง</label>
+                                                <label for="address_subdistrict" class="form-label">{{ __('messages.sub-district/ward') }}</label>
                                                 <input type="text" class="form-control" id="address_subdistrict" name="address_subdistrict" value="{{ $address->address_subdistrict }}" required>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="address_district" class="form-label">อำเภอ/เขต</label>
+                                                <label for="address_district" class="form-label">{{ __('messages.district') }}</label>
                                                 <input type="text" class="form-control" id="address_district" name="address_district" value="{{ $address->address_district }}" required>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="address_province" class="form-label">จังหวัด</label>
+                                                <label for="address_province" class="form-label">{{ __('messages.province') }}</label>
                                                 <input type="text" class="form-control" id="address_province" name="address_province" value="{{ $address->address_province }}" required>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="address_postal_code" class="form-label">รหัสไปรษณีย์</label>
+                                                <label for="address_postal_code" class="form-label">{{ __('messages.postal code') }}</label>
                                                 <input type="text" class="form-control" id="address_postal_code" name="address_postal_code" value="{{ $address->address_postal_code }}" required>
                                             </div>
-                                            <div class="d-grid gap-2 col-6 mx-auto">
-                                                <button class="btn btn-primary" type="submit">บันทึก</button>
+                                            <div class="text-center">
+                                                <button class="btn-saveeditaddress" type="submit">{{ __('messages.save') }}</button>
                                             </div>
                                         </form>
                                     </div>
@@ -379,4 +379,55 @@
             background-color: rgb(130, 66, 225);
             transform: scale(1.05);
         }
+
+        .btn-editaddress {
+            background-color: rgb(130, 66, 225);
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 2px 13px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-editaddress:hover{
+            background-color: rgb(130, 66, 225);
+            transform: scale(1.05);
+        }
+
+        .btn-deleteaddress {
+            background-color: rgb(225, 216, 238);
+            color: rgb(130, 66, 225);
+            border: none;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-deleteaddress:hover {
+            background-color: rgb(225, 216, );
+            transform: scale(1.05);
+        }
+
+        .btn-saveeditaddress {
+            background-color: rgb(130, 66, 225);
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-saveeditaddress:hover{
+            background-color: rgb(130, 66, 225);
+            transform: scale(1.05);
+        }
+
+
+        
     </style>
