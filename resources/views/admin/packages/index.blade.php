@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('hide-navbar')
 @section('content')
 <div class="d-flex">
     <!-- Sidebar -->
@@ -80,9 +80,5 @@
         </div>
     </div>
 </div>
-<style>
-    .card-header {
-        background-color: #6f42c1;
-    }
-</style>
+@endsection
 @endsection
