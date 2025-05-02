@@ -76,8 +76,8 @@
                                 <div class="mb-3 w-50">
                                     <label for="member_gender" class="form-label">{{ __('messages.gender') }}</label>
                                     <select class="form-control" id="member_gender" name="member_gender">
-                                        <option value="male" {{ $Member->member_gender === 'male' ? 'selected' : '' }}>ชาย</option>
-                                        <option value="female" {{ $Member->member_gender === 'female' ? 'selected' : '' }}>หญิง</option>
+                                        <option value="male" {{ $Member->member_gender === 'male' ? 'selected' : '' }}>{{ __('messages.male') }}</option>
+                                        <option value="female" {{ $Member->member_gender === 'female' ? 'selected' : '' }}>{{ __('messages.female') }}</option>
                                     </select>
                                 </div>
 
@@ -172,7 +172,7 @@
 
                         <!-- การแสดงที่อยู่ -->
                         <div class="form-group mt-4">
-                            <h4>ที่อยู่ในการจัดส่ง</h4>
+                            <h4>{{ __('messages.deliver address') }}</h4>
 
                             @foreach ($Member->addresses as $address)
                             <div class="card mb-3 shadow-sm address-card">
@@ -253,12 +253,12 @@
 
                             <!-- ปุ่มเพิ่มที่อยู่ใหม่ -->
                             <div class="mb-3">
-                                <button type="button" class="btn-add-address" data-bs-toggle="modal" data-bs-target="#addressModal"> + เพิ่มที่อยู่ใหม่</button>
+                                <button type="button" class="btn-add-address" data-bs-toggle="modal" data-bs-target="#addressModal">{{ __('messages.add address') }}</button>
                             </div>
 
 
                             <div class="text-center mt-4">
-                                <button type="button" class="btn-submit px-5" onclick="submitProfileForm()">บันทึกข้อมูลทั้งหมด</button>
+                                <button type="button" class="btn-submit px-5" onclick="submitProfileForm()">{{ __('messages.save') }}</button>
                             </div>
                         </div>
                     </div>
