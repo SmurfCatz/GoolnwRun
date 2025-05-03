@@ -43,6 +43,20 @@ class OrganizerController extends Controller
         return redirect()->route('admin.organizers.index')->with('error', 'ไม่พบผู้ใช้นี้');
     }
 
+    public function cancelApproval($id)
+    {
+        $organizer = Organizer::find($id);
+        if ($organizer) {
+            $organizer->is_approved = false;
+            $organizer->save();
+
+            return redirect()->route('admin.organizers.pending')->with('success', 'การอนุมัติถูกยกเลิกแล้ว');
+        }
+
+        return redirect()->route('admin.organizers.pending')->with('error', 'ไม่พบผู้ใช้นี้');
+    }
+
+
 
     // ใน Controller ที่รับคำขอ check-approval
     public function checkApproval(Request $request)
@@ -85,12 +99,15 @@ class OrganizerController extends Controller
         $request->validate([
             'organizer_name' => 'required|string|max:255',
             'organizer_email' => 'required|email|unique:organizers,organizer_email',
+            'organizer_tel' => 'required|string|max:255',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
         Organizer::create([
             'organizer_name' => $request->organizer_name,
             'organizer_email' => $request->organizer_email,
+            'organizer_tel' => $request->organizer_tel,
+            'is_approved' => $request->is_approved ?? false,
             'organizer_password' => bcrypt($request->password),
         ]);
 
@@ -118,12 +135,16 @@ class OrganizerController extends Controller
         $request->validate([
             'organizer_name' => 'required|string|max:255',
             'organizer_email' => 'required|email|unique:organizers,organizer_email,' . $id,
+            'organizer_tel' => 'required|string|max:255',
+            'is_approved' => 'required|boolean',
             'organizer_password' => 'nullable|string|min:8|confirmed',
         ]);
 
         $organizer = Organizer::findOrFail($id);
         $organizer->organizer_name = $request->organizer_name;
         $organizer->organizer_email = $request->organizer_email;
+        $organizer->organizer_tel = $request->organizer_tel;
+        $organizer->is_approved = $request->is_approved;
         if ($request->organizer_password) {
             $organizer->organizer_password = bcrypt($request->organizer_password);
         }

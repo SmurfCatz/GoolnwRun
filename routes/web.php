@@ -74,6 +74,8 @@ Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::get('/organizer/loading', function () {
         return view('organizer.loading');
     })->name('organizer.loading');
+    Route::post('/admin/organizers/cancel/{id}', [OrganizerController::class, 'destroy'])->name('admin.organizers.cancel');
+
 
     Route::get('/members', [UserController::class, 'index'])->name('admin.users.index');
     Route::get('/members/create', [UserController::class, 'create'])->name('admin.users.create');

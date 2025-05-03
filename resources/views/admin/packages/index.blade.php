@@ -11,7 +11,7 @@
     <div class="container mt-4">
         <div class="row justify-content-start mx-1">
             <div class="col-md-11">
-                <div class="card shadow-lg border-0">
+                <div class="card shadow-lg border-0 rounded-4">
                     <div class="card-header d-flex justify-content-between align-items-center text-white">
                         <h4 class="mb-0">{{ __('Package Management') }}</h4>
                         <a href="{{ route('admin.packages.create') }}"

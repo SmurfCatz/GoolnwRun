@@ -22,6 +22,7 @@ class Organizer extends Authenticatable
         'organizer_details',
         'organizer_idcard',
         'organizer_experience',
+        'is_approved',
         'organizer_image',
     ];
 
@@ -36,7 +37,7 @@ class Organizer extends Authenticatable
     ];
 
     public function getAuthPassword()
-{
-    return $this->organizer_password;
-}
+    {
+        return $this->organizer_password;
+    }
 }

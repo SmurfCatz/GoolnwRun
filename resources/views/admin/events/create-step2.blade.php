@@ -1,89 +1,96 @@
 @extends('layouts.app')
-
+@section('hide-navbar')
 @section('content')
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-header bg-primary text-white">
-            <h4>{{ __('Create Event - Step 2') }}</h4>
-        </div>
-        <div class="card-body">
-            <form action="{{ route('admin.events.create.step2') }}" method="POST">
-                @csrf
 
-                <!-- Display the selected package -->
-                <h5>{{ __('Selected Package: ') }} <strong>{{ $package->package_name }}</strong></h5>
-                <input type="hidden" name="package_id" value="{{ $package->id }}">
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div class="sidebar mt-4 " id="sidebar-wrapper">
+        @include('components.sidebar')
+    </div>
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4>{{ __('Create Event - Step 2') }}</h4>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('admin.events.create.step2') }}" method="POST">
+                    @csrf
 
-                <!-- Event Name -->
-                <div class="mb-3">
-                    <label for="event_name" class="form-label">{{ __('Event Name') }}</label>
-                    <input type="text" name="event_name" id="event_name" class="form-control"
-                        value="{{ old('event_name') }}" placeholder="{{ __('Enter event name') }}" required>
-                </div>
+                    <!-- Display the selected package -->
+                    <h5>{{ __('Selected Package: ') }} <strong>{{ $package->package_name }}</strong></h5>
+                    <input type="hidden" name="package_id" value="{{ $package->id }}">
 
-                <!-- Event Category -->
-                <div class="mb-3">
-                    <label for="event_category" class="form-label">{{ __('Event Category') }}</label>
-                    <select name="event_category" id="event_category" class="form-select" required>
-                        <option value="Race">{{ __('Race') }}</option>
-                        <option value="Virtual Run">{{ __('Virtual Run') }}</option>
-                    </select>
-                </div>
+                    <!-- Event Name -->
+                    <div class="mb-3">
+                        <label for="event_name" class="form-label">{{ __('Event Name') }}</label>
+                        <input type="text" name="event_name" id="event_name" class="form-control"
+                            value="{{ old('event_name') }}" placeholder="{{ __('Enter event name') }}" required>
+                    </div>
 
-                <!-- Event Location -->
-                <div class="mb-3">
-                    <label for="event_location" class="form-label">{{ __('Event Location') }}</label>
-                    <input type="text" name="event_location" id="event_location" class="form-control"
-                        value="{{ old('event_location') }}" placeholder="{{ __('Enter event location') }}" required>
-                </div>
+                    <!-- Event Category -->
+                    <div class="mb-3">
+                        <label for="event_category" class="form-label">{{ __('Event Category') }}</label>
+                        <select name="event_category" id="event_category" class="form-select" required>
+                            <option value="Race">{{ __('Race') }}</option>
+                            <option value="Virtual Run">{{ __('Virtual Run') }}</option>
+                        </select>
+                    </div>
 
-                <!-- Event province -->
-                <div class="mb-3">
-                    <label for="event_province" class="form-label">{{ __('Event Province') }}</label>
-                    <select name="event_province" id="event_province" class="form-select" required>
-                        <option value="Bangkok">{{ __('Bangkok') }}</option>
-                        <option value="Chiang Mai">{{ __('Chiang Mai') }}</option>
-                        <option value="Phuket">{{ __('Phuket') }}</option>
-                        <option value="Krabi">{{ __('Krabi') }}</option>
-                        <option value="Pattaya">{{ __('Pattaya') }}</option>
-                        <option value="Samui">{{ __('Samui') }}</option>
-                        <option value="Hua Hin">{{ __('Hua Hin') }}</option>
-                        <option value="Ayutthaya">{{ __('Ayutthaya') }}</option>
-                        <option value="Nakhon Ratchasima">{{ __('Nakhon Ratchasima') }}</option>
-                        <option value="Nakhon Si Thammarat">{{ __('Nakhon Si Thammarat') }}</option>
-                        <option value="Surat Thani">{{ __('Surat Thani') }}</option>
-                    </select>
-                </div>
+                    <!-- Event Location -->
+                    <div class="mb-3">
+                        <label for="event_location" class="form-label">{{ __('Event Location') }}</label>
+                        <input type="text" name="event_location" id="event_location" class="form-control"
+                            value="{{ old('event_location') }}" placeholder="{{ __('Enter event location') }}" required>
+                    </div>
 
-                <!-- Event Date -->
-                <div class="mb-3">
-                    <label for="event_date" class="form-label">{{ __('Event Date') }}</label>
-                    <input type="date" name="event_date" id="event_date" class="form-control"
-                        value="{{ old('event_date') }}" required>
-                </div>
+                    <!-- Event province -->
+                    <div class="mb-3">
+                        <label for="event_province" class="form-label">{{ __('Event Province') }}</label>
+                        <select name="event_province" id="event_province" class="form-select" required>
+                            <option value="Bangkok">{{ __('Bangkok') }}</option>
+                            <option value="Chiang Mai">{{ __('Chiang Mai') }}</option>
+                            <option value="Phuket">{{ __('Phuket') }}</option>
+                            <option value="Krabi">{{ __('Krabi') }}</option>
+                            <option value="Pattaya">{{ __('Pattaya') }}</option>
+                            <option value="Samui">{{ __('Samui') }}</option>
+                            <option value="Hua Hin">{{ __('Hua Hin') }}</option>
+                            <option value="Ayutthaya">{{ __('Ayutthaya') }}</option>
+                            <option value="Nakhon Ratchasima">{{ __('Nakhon Ratchasima') }}</option>
+                            <option value="Nakhon Si Thammarat">{{ __('Nakhon Si Thammarat') }}</option>
+                            <option value="Surat Thani">{{ __('Surat Thani') }}</option>
+                        </select>
+                    </div>
 
-                <!-- Registration Start Date -->
-                <div class="mb-3">
-                    <label for="registration_start" class="form-label">{{ __('Registration Start Date') }}</label>
-                    <input type="date" name="registration_start" id="registration_start" class="form-control"
-                        value="{{ old('registration_start') }}" required>
-                </div>
+                    <!-- Event Date -->
+                    <div class="mb-3">
+                        <label for="event_date" class="form-label">{{ __('Event Date') }}</label>
+                        <input type="date" name="event_date" id="event_date" class="form-control"
+                            value="{{ old('event_date') }}" required>
+                    </div>
 
-                <!-- Registration End Date -->
-                <div class="mb-3">
-                    <label for="registration_end" class="form-label">{{ __('Registration End Date') }}</label>
-                    <input type="date" name="registration_end" id="registration_end" class="form-control"
-                        value="{{ old('registration_end') }}" required>
-                </div>
+                    <!-- Registration Start Date -->
+                    <div class="mb-3">
+                        <label for="registration_start" class="form-label">{{ __('Registration Start Date') }}</label>
+                        <input type="date" name="registration_start" id="registration_start" class="form-control"
+                            value="{{ old('registration_start') }}" required>
+                    </div>
 
-                <!-- Sub Events -->
-                <h5 class="mt-4">{{ __('Sub Events') }}</h5>
-                <div id="subEventsContainer"></div>
-                <button type="button" id="addSubEvent" class="btn btn-secondary mt-3">{{ __('Add Sub Event') }}</button>
+                    <!-- Registration End Date -->
+                    <div class="mb-3">
+                        <label for="registration_end" class="form-label">{{ __('Registration End Date') }}</label>
+                        <input type="date" name="registration_end" id="registration_end" class="form-control"
+                            value="{{ old('registration_end') }}" required>
+                    </div>
 
-                <!-- Submit Button -->
-                <button type="submit" class="btn btn-primary mt-3">{{ __('Save Event') }}</button>
-            </form>
+                    <!-- Sub Events -->
+                    <h5 class="mt-4">{{ __('Sub Events') }}</h5>
+                    <div id="subEventsContainer"></div>
+                    <button type="button" id="addSubEvent" class="btn btn-secondary mt-3">{{ __('Add Sub Event') }}</button>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary mt-3">{{ __('Save Event') }}</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -133,4 +140,5 @@
         });
     });
 </script>
+@endsection
 @endsection
